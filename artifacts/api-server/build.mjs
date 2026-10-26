@@ -16,7 +16,8 @@ async function buildAll() {
   await cp(path.resolve(artifactDir, "src/data"), path.resolve(distDir, "data"), { recursive: true });
 
   await esbuild({
-    entryPoints: [path.resolve(artifactDir, "src/index.ts")],
+    // app.ts is also emitted on its own so Vercel can serve it as a function (see /api/index.mjs).
+    entryPoints: [path.resolve(artifactDir, "src/index.ts"), path.resolve(artifactDir, "src/app.ts")],
     platform: "node",
     bundle: true,
     format: "esm",
