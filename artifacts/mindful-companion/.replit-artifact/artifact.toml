@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Mindful Companion"
+description = "An Arabic-first AI companion landing page with gentle bilingual authentication, designed to help people understand their patterns and shape days that fit them."
+version = "1.0.0"
+id = "artifacts/mindful-companion"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25320
+
+[services.development]
+run = "pnpm --filter @workspace/mindful-companion run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/mindful-companion", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/mindful-companion/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25320"
+BASE_PATH = "/"

@@ -1,0 +1,25 @@
+{
+  "name": "workspace",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "build": "pnpm run check:duplicate-pages && pnpm run test:duplicate-pages && pnpm run test:build-config && pnpm run test:release-assets && pnpm run typecheck && pnpm -r --if-present run build",
+    "test:build-config": "pnpm --filter @workspace/mockup-sandbox run test:config",
+    "test:release-assets": "pnpm --filter @workspace/mockup-sandbox exec node --test vite.release.test.mjs",
+    "check:duplicate-pages": "pnpm --filter @workspace/scripts run check:duplicate-pages",
+    "test:e2e": "playwright test",
+    "test:duplicate-pages": "pnpm --filter @workspace/scripts run test:duplicate-pages",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+  },
+  "private": true,
+  "dependencies": {
+    "@replit/connectors-sdk": "^0.4.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "prettier": "^3.9.6",
+    "typescript": "~5.9.3"
+  }
+}

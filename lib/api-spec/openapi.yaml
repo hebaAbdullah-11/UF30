@@ -1,0 +1,1452 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: auth
+    description: Local email and password authentication
+  - name: users
+    description: Authenticated user profile operations
+  - name: onboarding
+    description: First-time user onboarding and personalization
+  - name: internal-chat
+    description: Separate persisted conversations for the internal tools
+  - name: daily-questions
+    description: Three account-owned daily reflection answers
+  - name: uf30-institutions
+    description: Public institutional enrollment and privacy-preserving UF30 impact reporting
+paths:
+  /uf30/institutions/{slug}:
+    get:
+      operationId: getUf30Institution
+      tags: [uf30-institutions]
+      summary: Get public program details for an institution
+      parameters:
+        - { name: slug, in: path, required: true, schema: { type: string, minLength: 2, maxLength: 80, pattern: '^[a-z0-9-]+$' } }
+      responses:
+        "200":
+          description: Public workshop and discount details only
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Uf30InstitutionPublic" }
+        "404":
+          description: Institution not found
+  /uf30/institution-enrollments:
+    post:
+      operationId: enrollUf30Participant
+      tags: [uf30-institutions]
+      summary: Create anonymous institutional enrollment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Uf30InstitutionEnrollmentInput" }
+      responses:
+        "201":
+          description: Enrollment created; the opaque token is only returned to the participant
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Uf30InstitutionEnrollment" }
+        "400":
+          description: Invalid or unavailable invitation
+  /uf30/impact-measurements:
+    post:
+      operationId: saveUf30ImpactMeasurement
+      tags: [uf30-institutions]
+      summary: Save an anonymous participant's impact measurement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Uf30ImpactMeasurementInput" }
+      responses:
+        "204":
+          description: Measurement saved without returning individual values
+        "400":
+          description: Invalid measurement or token
+  /uf30/institution-reports:
+    get:
+      operationId: getUf30InstitutionReport
+      tags: [uf30-institutions]
+      summary: Get aggregate-only report for the signed-in institution member
+      security:
+        - SessionCookie: []
+      responses:
+        "200":
+          description: Counts and sufficiently large anonymous aggregates only
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Uf30InstitutionReport" }
+        "401":
+          description: Authentication required
+        "403":
+          description: No institutional reporting role
+  /planner:
+    get:
+      operationId: getPlanner
+      parameters:
+        - { name: day, in: query, required: true, schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2}$' } }
+      responses:
+        "200":
+          description: Account-owned daily plan and idea inbox
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PlannerSnapshot" }
+  /planner/tasks:
+    post:
+      operationId: createPlannerTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PlannerTaskInput" }
+      responses:
+        "201":
+          description: Explicitly created task or reminder
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PlannerTask" }
+  /planner/tasks/{id}/action:
+    post:
+      operationId: actOnPlannerTask
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PlannerActionInput" }
+      responses:
+        "200":
+          description: Updated task
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PlannerTask" }
+  /planner/ideas:
+    post:
+      operationId: capturePlannerIdea
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PlannerIdeaInput" }
+      responses:
+        "201":
+          description: Idea saved, no tasks created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PlannerIdea" }
+  /planner/ideas/{id}/suggest:
+    post:
+      operationId: suggestPlannerTasks
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PlannerSuggestionInput" }
+      responses:
+        "200":
+          description: Suggestions only, not tasks
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PlannerIdea" }
+        "503":
+          description: AI unavailable; idea remains saved
+  /planner/ideas/{id}/decide:
+    post:
+      operationId: decidePlannerSuggestions
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PlannerDecisionInput" }
+      responses:
+        "200":
+          description: Only approved suggestions become tasks
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PlannerIdea" }
+  /chat-media/uploads:
+    post:
+      operationId: requestChatMediaUpload
+      tags: [internal-chat]
+      summary: Request a private account-owned media upload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaUploadInput"
+      responses:
+        "200":
+          description: Upload directly to the signed URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MediaUploadResult"
+  /chat-media/transcribe:
+    post:
+      operationId: transcribeChatAudio
+      tags: [internal-chat]
+      summary: Transcribe a completed recording for review before sending
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AudioTranscriptionInput"
+      responses:
+        "200":
+          description: Editable transcription
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioTranscriptionResult"
+  /chat-media/image:
+    get:
+      operationId: getChatImage
+      tags: [internal-chat]
+      summary: Retrieve an image owned by the current account
+      parameters:
+        - in: query
+          name: objectPath
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Validated image bytes
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /auth/sign-up:
+    post:
+      operationId: signUp
+      tags: [auth]
+      summary: Create a local account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignUpInput"
+      responses:
+        "201":
+          description: Account created and session started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Invalid name, email, or password
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthErrorResponse"
+        "409":
+          description: Email already in use
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthErrorResponse"
+  /auth/sign-in:
+    post:
+      operationId: signIn
+      tags: [auth]
+      summary: Sign in with email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignInInput"
+      responses:
+        "200":
+          description: Signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Invalid email or password format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthErrorResponse"
+        "401":
+          description: Incorrect email or password
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthErrorResponse"
+  /auth/sign-out:
+    post:
+      operationId: signOut
+      tags: [auth]
+      summary: End the current session
+      responses:
+        "204":
+          description: Signed out
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [auth]
+      summary: Get the current session user
+      responses:
+        "200":
+          description: Current user, or null when signed out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentUserResponse"
+  /users/sync:
+    post:
+      operationId: syncUserProfile
+      tags: [users]
+      summary: Save the signed-in user's profile
+      description: Creates or updates the local profile for the authenticated user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfileInput"
+      responses:
+        "200":
+          description: Saved profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "400":
+          description: Invalid profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /users/onboarding:
+    get:
+      operationId: getUserOnboarding
+      tags: [onboarding]
+      summary: Get the signed-in user's onboarding state
+      responses:
+        "200":
+          description: Current onboarding state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserOnboarding"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateUserOnboarding
+      tags: [onboarding]
+      summary: Save onboarding progress and answers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OnboardingUpdate"
+      responses:
+        "200":
+          description: Updated onboarding state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserOnboarding"
+        "400":
+          description: Invalid onboarding data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /internal-chat/{section}:
+    parameters:
+      - $ref: "#/components/parameters/ChatSection"
+    get:
+      operationId: getInternalChat
+      tags: [internal-chat]
+      summary: Get one internal tool conversation
+      parameters:
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [ar, en]
+      responses:
+        "200":
+          description: Conversation messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalChatHistory"
+        "400":
+          description: Invalid section
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: sendInternalChatMessage
+      tags: [internal-chat]
+      summary: Add one context-aware chat exchange, replaying retries safely
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InternalChatInput"
+      responses:
+        "201":
+          description: User and agent messages created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalChatExchange"
+        "400":
+          description: Invalid message or section
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /internal-chat/{section}/new-conversation:
+    parameters:
+      - $ref: "#/components/parameters/ChatSection"
+    post:
+      operationId: startNewInternalChatConversation
+      tags: [internal-chat]
+      summary: Start a fresh internal chat state while preserving prior history
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewInternalChatConversationInput"
+      responses:
+        "201":
+          description: Initial assistant message for the fresh conversation state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalChatMessage"
+        "400":
+          description: Invalid or unsupported section
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /internal-chat/{section}/messages/{messageId}/steps/{order}:
+    parameters:
+      - $ref: "#/components/parameters/ChatSection"
+      - name: messageId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: order
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    patch:
+      operationId: updateInternalChatStep
+      tags: [internal-chat]
+      summary: Mark one task-sequence step done or not done
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskStepUpdate"
+      responses:
+        "200":
+          description: Updated chat message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalChatMessage"
+        "400":
+          description: Invalid step or message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Message not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /daily-reflection:
+    post:
+      operationId: reflectOnDailyAnswers
+      tags: [daily-questions]
+      summary: Request orchestrator feedback on daily reflection answers without changing saved data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DailyReflectionInput"
+      responses:
+        "200":
+          description: Main orchestrator reflection response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DailyReflectionResult"
+        "400":
+          description: Invalid answers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: A reflection request is already running
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: Agent temporarily unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /daily-questions/{date}:
+    parameters:
+      - name: date
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+    get:
+      operationId: getDailyQuestionAnswers
+      tags: [daily-questions]
+      summary: Get the signed-in user's answers for a date
+      responses:
+        "200":
+          description: Daily answers, or null if unanswered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DailyQuestionStatus"
+        "400":
+          description: Invalid date
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: saveDailyQuestionAnswers
+      tags: [daily-questions]
+      summary: Save exactly three answers for a date
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DailyQuestionInput"
+      responses:
+        "200":
+          description: Saved daily answers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DailyQuestionAnswers"
+        "400":
+          description: Invalid date or answers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  securitySchemes:
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: afta_session
+  parameters:
+    ChatSection:
+      name: section
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/InternalChatSection"
+  schemas:
+    Uf30InstitutionPublic:
+      type: object
+      additionalProperties: false
+      required: [slug, nameArabic, nameEnglish, discountPercent]
+      properties:
+        slug: { type: string }
+        nameArabic: { type: string }
+        nameEnglish: { type: string }
+        discountPercent: { type: integer, minimum: 0, maximum: 100 }
+    Uf30InstitutionEnrollmentInput:
+      type: object
+      additionalProperties: false
+      required: [slug, invitationCode]
+      properties:
+        slug: { type: string, minLength: 2, maxLength: 80, pattern: '^[a-z0-9-]+$' }
+        invitationCode: { type: string, minLength: 24, maxLength: 128 }
+    Uf30InstitutionEnrollment:
+      type: object
+      additionalProperties: false
+      required: [participantToken]
+      properties:
+        participantToken: { type: string, minLength: 40, maxLength: 64 }
+    Uf30ImpactMeasurementInput:
+      type: object
+      additionalProperties: false
+      required: [participantToken, phase, metrics]
+      properties:
+        participantToken: { type: string, minLength: 40, maxLength: 64 }
+        phase: { type: string, enum: [baseline, after_session_four, after_two_months] }
+        metrics:
+          type: object
+          additionalProperties: false
+          required: [onTimeCompletion, punctuality, managerRating, participantSatisfaction]
+          properties:
+            onTimeCompletion: { type: number, minimum: 0, maximum: 100 }
+            punctuality: { type: number, minimum: 0, maximum: 100 }
+            managerRating: { type: number, minimum: 1, maximum: 5 }
+            participantSatisfaction: { type: number, minimum: 1, maximum: 5 }
+    Uf30InstitutionReport:
+      type: object
+      additionalProperties: false
+      required: [institution, enrolledCount, minimumGroupSize, phases]
+      properties:
+        institution:
+          type: object
+          additionalProperties: false
+          required: [nameArabic, nameEnglish, discountPercent]
+          properties:
+            nameArabic: { type: string }
+            nameEnglish: { type: string }
+            discountPercent: { type: integer, minimum: 0, maximum: 100 }
+        enrolledCount: { type: integer, minimum: 0 }
+        minimumGroupSize: { type: integer, const: 10 }
+        phases:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items:
+            type: object
+            additionalProperties: false
+            required: [phase, responseCount, suppressed, averages]
+            properties:
+              phase: { type: string, enum: [baseline, after_session_four, after_two_months] }
+              responseCount: { type: [integer, "null"], minimum: 10 }
+              suppressed: { type: boolean }
+              averages:
+                type: [object, "null"]
+                additionalProperties: false
+                required: [onTimeCompletion, punctuality, managerRating, participantSatisfaction]
+                properties:
+                  onTimeCompletion: { type: [number, "null"], minimum: 0, maximum: 100 }
+                  punctuality: { type: [number, "null"], minimum: 0, maximum: 100 }
+                  managerRating: { type: [number, "null"], minimum: 1, maximum: 5 }
+                  participantSatisfaction: { type: [number, "null"], minimum: 1, maximum: 5 }
+    DailyReflectionInput:
+      type: object
+      additionalProperties: false
+      properties:
+        language:
+          type: string
+          enum: [ar, en]
+        q1:
+          type: string
+          minLength: 1
+          maxLength: 200
+        q2:
+          type: string
+          minLength: 1
+          maxLength: 200
+        q3:
+          type: string
+          minLength: 1
+          maxLength: 200
+      required: [language, q1, q2, q3]
+    DailyReflectionResult:
+      type: object
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+          minLength: 1
+      required: [message]
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    SignUpInput:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+      required:
+        - name
+        - email
+        - password
+    SignInInput:
+      type: object
+      additionalProperties: false
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+      required:
+        - email
+        - password
+    AuthUser:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+      required:
+        - id
+        - name
+        - email
+    AuthResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        user:
+          $ref: "#/components/schemas/AuthUser"
+      required:
+        - user
+    CurrentUserResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        user:
+          oneOf:
+            - $ref: "#/components/schemas/AuthUser"
+            - type: "null"
+      required:
+        - user
+    AuthErrorResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+        error:
+          type: string
+      required:
+        - code
+        - error
+    InternalChatSection:
+      type: string
+      enum:
+        - declutter
+        - organize_thoughts
+    ChatImage:
+      type: object
+      additionalProperties: false
+      properties:
+        objectPath:
+          type: string
+          maxLength: 220
+        contentType:
+          type: string
+          enum: [image/jpeg, image/png, image/webp]
+      required: [objectPath, contentType]
+    MediaUploadInput:
+      type: object
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum: [image, audio]
+        contentType:
+          type: string
+          maxLength: 100
+        size:
+          type: integer
+          minimum: 1
+          maximum: 8388608
+      required: [kind, contentType, size]
+    MediaUploadResult:
+      type: object
+      properties:
+        uploadURL:
+          type: string
+        objectPath:
+          type: string
+      required: [uploadURL, objectPath]
+    AudioTranscriptionInput:
+      type: object
+      additionalProperties: false
+      properties:
+        objectPath:
+          type: string
+          maxLength: 220
+      required: [objectPath]
+    AudioTranscriptionResult:
+      type: object
+      properties:
+        text:
+          type: string
+      required: [text]
+    AgentTextResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: text
+        message:
+          type: string
+        image:
+          $ref: "#/components/schemas/ChatImage"
+      required:
+        - type
+        - message
+    TaskSequenceStep:
+      type: object
+      additionalProperties: false
+      properties:
+        order:
+          type: integer
+          minimum: 1
+        title:
+          type: string
+        done:
+          type: boolean
+      required:
+        - order
+        - title
+        - done
+    AgentTaskSequenceResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: task_sequence
+        message:
+          type: string
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/TaskSequenceStep"
+      required:
+        - type
+        - message
+        - steps
+    ThoughtCluster:
+      type: object
+      additionalProperties: false
+      properties:
+        label:
+          type: string
+        items:
+          type: array
+          items:
+            type: string
+      required:
+        - label
+        - items
+    AgentThoughtClustersResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: thought_clusters
+        message:
+          type: string
+        clusters:
+          type: array
+          items:
+            $ref: "#/components/schemas/ThoughtCluster"
+      required:
+        - type
+        - message
+        - clusters
+    InteractiveOption:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        value:
+          type: string
+      required: [id, label, value]
+    AgentInteractiveResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: interactive
+        message:
+          type: string
+        options:
+          type: array
+          description: Guided prompts normally offer four choices, but task selection and saved historical messages can contain more.
+          items:
+            $ref: "#/components/schemas/InteractiveOption"
+        allowFreeText:
+          type: boolean
+        nextAction:
+          type: string
+          enum: [ask, prioritize, start_task, summarize]
+      required: [type, message, options, allowFreeText, nextAction]
+    AgentPriorityItem:
+      type: object
+      additionalProperties: false
+      properties:
+        priority:
+          type: integer
+          minimum: 1
+        task:
+          type: string
+        reason:
+          type: string
+        nextStep:
+          type: string
+      required: [priority, task, reason, nextStep]
+    AgentPriorityResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: priority_list
+        message:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AgentPriorityItem"
+        options:
+          type: array
+          description: Preserve all valid choices from saved historical messages.
+          items:
+            $ref: "#/components/schemas/InteractiveOption"
+        nextAction:
+          type: string
+          enum: [start_task, summarize]
+      required: [type, message, items, options, nextAction]
+    AgentFlowchartResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          const: flowchart
+        message:
+          type: string
+        title:
+          type: string
+        mermaid:
+          type: string
+          maxLength: 8000
+      required: [type, message, title, mermaid]
+    AgentResponse:
+      oneOf:
+        - $ref: "#/components/schemas/AgentTextResponse"
+        - $ref: "#/components/schemas/AgentTaskSequenceResponse"
+        - $ref: "#/components/schemas/AgentThoughtClustersResponse"
+        - $ref: "#/components/schemas/AgentInteractiveResponse"
+        - $ref: "#/components/schemas/AgentPriorityResponse"
+        - $ref: "#/components/schemas/AgentFlowchartResponse"
+    InternalChatMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+          enum:
+            - user
+            - assistant
+        response:
+          $ref: "#/components/schemas/AgentResponse"
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - role
+        - response
+        - createdAt
+    InternalChatHistory:
+      type: array
+      items:
+        $ref: "#/components/schemas/InternalChatMessage"
+    InternalChatInput:
+      type: object
+      additionalProperties: false
+      properties:
+        requestId:
+          type: string
+          format: uuid
+          description: Reuse this ID when retrying the same submission.
+        message:
+          type: string
+          minLength: 0
+          maxLength: 12000
+        language:
+          type: string
+          enum: [ar, en]
+        option:
+          $ref: "#/components/schemas/InteractiveOption"
+        image:
+          $ref: "#/components/schemas/ChatImage"
+      anyOf:
+        - required: [message]
+        - required: [option]
+        - required: [image]
+    InternalChatExchange:
+      type: object
+      additionalProperties: false
+      properties:
+        userMessage:
+          $ref: "#/components/schemas/InternalChatMessage"
+        assistantMessage:
+          $ref: "#/components/schemas/InternalChatMessage"
+      required:
+        - userMessage
+        - assistantMessage
+    NewInternalChatConversationInput:
+      type: object
+      additionalProperties: false
+      properties:
+        language:
+          type: string
+          enum: [ar, en]
+      required:
+        - language
+    TaskStepUpdate:
+      type: object
+      additionalProperties: false
+      properties:
+        done:
+          type: boolean
+      required:
+        - done
+    DailyQuestionInput:
+      type: object
+      additionalProperties: false
+      properties:
+        q1:
+          type: string
+          minLength: 1
+          maxLength: 200
+        q2:
+          type: string
+          minLength: 1
+          maxLength: 200
+        q3:
+          type: string
+          minLength: 1
+          maxLength: 200
+      required:
+        - q1
+        - q2
+        - q3
+    DailyQuestionAnswers:
+      type: object
+      additionalProperties: false
+      properties:
+        date:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+        q1:
+          type: string
+        q2:
+          type: string
+        q3:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - date
+        - q1
+        - q2
+        - q3
+        - updatedAt
+    DailyQuestionStatus:
+      type: object
+      additionalProperties: false
+      properties:
+        date:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+        answers:
+          oneOf:
+            - $ref: "#/components/schemas/DailyQuestionAnswers"
+            - type: "null"
+      required:
+        - date
+        - answers
+    UserProfileInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+      required:
+        - name
+        - email
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        clerkUserId:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - clerkUserId
+        - name
+        - email
+        - createdAt
+        - updatedAt
+    OnboardingStage:
+      type: string
+      enum:
+        - intro
+        - assessment
+        - result
+        - chat
+        - complete
+    AssessmentResult:
+      type: string
+      enum:
+        - inattentive
+        - hyperactive_impulsive
+        - combined
+        - balanced
+    AssessmentAnswers:
+      type: object
+      additionalProperties: false
+      properties:
+        q1:
+          $ref: "#/components/schemas/AssessmentAnswerValue"
+        q2:
+          $ref: "#/components/schemas/AssessmentAnswerValue"
+        q3:
+          $ref: "#/components/schemas/AssessmentAnswerValue"
+        q4:
+          $ref: "#/components/schemas/AssessmentAnswerValue"
+        q5:
+          $ref: "#/components/schemas/AssessmentAnswerValue"
+        q6:
+          $ref: "#/components/schemas/AssessmentAnswerValue"
+    AssessmentAnswerValue:
+      type: string
+      enum:
+        - rarely
+        - sometimes
+        - often
+        - very_often
+    OnboardingChatAnswers:
+      type: object
+      properties:
+        interests:
+          type: array
+          uniqueItems: true
+          maxItems: 4
+          items:
+            type: string
+            enum:
+              - interestCreative
+              - interestWork
+              - interestHealth
+              - interestLearning
+        dailyNeeds:
+          type: array
+          uniqueItems: true
+          maxItems: 4
+          items:
+            type: string
+            enum:
+              - needFocus
+              - needStart
+              - needRest
+              - needOrganize
+        supportPreference:
+          type: string
+          enum:
+            - ""
+            - supportGentle
+            - supportStructured
+      required:
+        - interests
+        - dailyNeeds
+        - supportPreference
+    OnboardingUpdate:
+      type: object
+      properties:
+        stage:
+          $ref: "#/components/schemas/OnboardingStage"
+        introStep:
+          type: integer
+          minimum: 0
+          maximum: 3
+        assessmentStep:
+          type: integer
+          minimum: 0
+          maximum: 5
+        assessmentAnswers:
+          $ref: "#/components/schemas/AssessmentAnswers"
+        chatAnswers:
+          $ref: "#/components/schemas/OnboardingChatAnswers"
+    UserOnboarding:
+      type: object
+      properties:
+        id:
+          type: string
+        stage:
+          $ref: "#/components/schemas/OnboardingStage"
+        introStep:
+          type: integer
+        assessmentStep:
+          type: integer
+        assessmentAnswers:
+          $ref: "#/components/schemas/AssessmentAnswers"
+        assessmentResult:
+          type:
+            - string
+            - "null"
+          enum:
+            - inattentive
+            - hyperactive_impulsive
+            - combined
+            - balanced
+            - null
+        chatAnswers:
+          $ref: "#/components/schemas/OnboardingChatAnswers"
+        completedAt:
+          type:
+            - string
+            - "null"
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - stage
+        - introStep
+        - assessmentStep
+        - assessmentAnswers
+        - assessmentResult
+        - chatAnswers
+        - completedAt
+        - createdAt
+        - updatedAt
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+    PlannerTask:
+      type: object
+      required: [id, title, kind, status, scheduledDay, reminderTime, completedDay]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        kind: { type: string, enum: [task, reminder, exercise] }
+        status: { type: string, enum: [pending, active, done] }
+        scheduledDay: { type: string }
+        reminderTime: { type: [string, "null"] }
+        completedDay: { type: [string, "null"] }
+    PlannerTaskInput:
+      type: object
+      required: [title, kind, scheduledDay]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 240 }
+        kind: { type: string, enum: [task, reminder] }
+        scheduledDay: { type: string, pattern: '^\d{4}-\d{2}-\d{2}$' }
+        reminderTime: { type: [string, "null"], pattern: '^([01]\d|2[0-3]):[0-5]\d$' }
+    PlannerActionInput:
+      type: object
+      required: [action, day]
+      properties:
+        action: { type: string, enum: [start, done, defer] }
+        day: { type: string, pattern: '^\d{4}-\d{2}-\d{2}$' }
+        deferUntil: { type: string, pattern: '^\d{4}-\d{2}-\d{2}$' }
+    PlannerSuggestion:
+      type: object
+      required: [id, title, decision]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        decision: { type: string, enum: [pending, approved, rejected] }
+    PlannerIdea:
+      type: object
+      required: [id, text, suggestions]
+      properties:
+        id: { type: string }
+        text: { type: string }
+        suggestions:
+          type: array
+          items: { $ref: "#/components/schemas/PlannerSuggestion" }
+    PlannerIdeaInput:
+      type: object
+      required: [text]
+      properties:
+        text: { type: string, minLength: 1, maxLength: 6000 }
+    PlannerSuggestionInput:
+      type: object
+      required: [language]
+      properties:
+        language: { type: string, enum: [ar, en] }
+    PlannerDecisionInput:
+      type: object
+      required: [approvedIds, rejectedIds, day]
+      properties:
+        approvedIds: { type: array, maxItems: 6, items: { type: string } }
+        rejectedIds: { type: array, maxItems: 6, items: { type: string } }
+        day: { type: string, pattern: '^\d{4}-\d{2}-\d{2}$' }
+    PlannerSnapshot:
+      type: object
+      required: [tasks, exercise, ideas, completed, deferred, remaining, upcoming]
+      properties:
+        tasks: { type: array, maxItems: 3, items: { $ref: "#/components/schemas/PlannerTask" } }
+        exercise:
+          anyOf:
+            - { $ref: "#/components/schemas/PlannerTask" }
+            - { type: "null" }
+        ideas: { type: array, items: { $ref: "#/components/schemas/PlannerIdea" } }
+        upcoming: { type: array, items: { $ref: "#/components/schemas/PlannerTask" } }
+        completed: { type: integer }
+        deferred: { type: integer }
+        remaining: { type: integer }
+

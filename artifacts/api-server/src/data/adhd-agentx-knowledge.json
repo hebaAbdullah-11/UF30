@@ -1,0 +1,332 @@
+[
+  {
+    "id": "adhd_001",
+    "category": "1. اضطراب فرط الحركة وتشتت الانتباه (الأساس)",
+    "concept": "معدل انتشار ADHD لدى البالغين عالميًا",
+    "content": "مراجعة شاملة (Umbrella Review) لعدة دراسات عالمية حول معدلات انتشار ADHD بين البالغين — مصدر جيد لدعم الإحصائيات المستخدمة بالفكرة.",
+    "source": {
+      "name": "Prevalence of ADHD in Adults: An Umbrella Review",
+      "type": "مراجعة علمية محكّمة (PMC)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11859750/"
+    }
+  },
+  {
+    "id": "adhd_002",
+    "category": "1. اضطراب فرط الحركة وتشتت الانتباه (الأساس)",
+    "concept": "قاعدة الأدلة والجدل العلمي حول ADHD عند البالغين",
+    "content": "مراجعة حديثة (2025) من مجلة World Psychiatry تناقش أدلة تشخيص وعلاج ADHD عند البالغين وأهم النقاط الخلافية — مفيدة لصياغة محتوى دقيق ومتوازن.",
+    "source": {
+      "name": "Cortese et al., ADHD in adults: evidence base, uncertainties and controversies",
+      "type": "مراجعة علمية محكّمة (World Psychiatry)",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1002/wps.21374"
+    }
+  },
+  {
+    "id": "adhd_003",
+    "category": "1. اضطراب فرط الحركة وتشتت الانتباه (الأساس)",
+    "concept": "مقدمة تعريفية لاضطراب ADHD (مصدر محلي سعودي)",
+    "content": "كتاب تعريفي أساسي صادر عن جمعية إشراق السعودية — الأنسب كمرجع تأسيسي متوافق مع السياق المحلي، ويعزز مصداقية المحتوى أمام اللجنة.",
+    "source": {
+      "name": "جمعية إشراق — مقدمة لاضطراب فرط الحركة وتشتت الانتباه",
+      "type": "كتاب / جهة سعودية معتمدة",
+      "url": "https://cpg.adhd.org.sa/ar/"
+    }
+  },
+  {
+    "id": "adhd_004",
+    "category": "1. اضطراب فرط الحركة وتشتت الانتباه (الأساس)",
+    "concept": "دليل توعوي رسمي عن الاضطراب بالعربي",
+    "content": "وثيقة توعوية صادرة عن المجلس الصحي السعودي (شراكة صحية) — مصدر رسمي حكومي موثوق يشرح الاضطراب وأعراضه بالعربي.",
+    "source": {
+      "name": "المجلس الصحي السعودي — اضطراب فرط الحركة وتشتت الانتباه (PDF)",
+      "type": "جهة حكومية رسمية",
+      "url": "https://www.shc.gov.sa/ar/Centers/NCDBD/About/Documents/%D8%A7%D8%B6%D8%B7%D8%B1%D8%A7%D8%A8%20%D9%81%D8%B1%D8%B7%20%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A9.pdf"
+    }
+  },
+  {
+    "id": "adhd_005",
+    "category": "1. اضطراب فرط الحركة وتشتت الانتباه (الأساس)",
+    "concept": "معدلات الانتشار في البيئات السريرية (أطفال وبالغين)",
+    "content": "مراجعة منهجية وتحليل تلوي (meta-analysis) حديث في Molecular Psychiatry عن معدلات تشخيص ADHD بالعيادات — يفيد بدعم الأرقام بمصدر حديث جدًا (2025).",
+    "source": {
+      "name": "Molecular Psychiatry, Prevalence of ADHD — systematic review & meta-analysis",
+      "type": "مراجعة علمية محكّمة (Nature)",
+      "url": "https://www.nature.com/articles/s41380-025-03178-8"
+    }
+  },
+  {
+    "id": "adhd_006",
+    "category": "2. المفاهيم السلوكية التطبيقية",
+    "concept": "الوظائف التنفيذية والتنظيم الذاتي",
+    "content": "ورقة حقائق (Fact Sheet) من Russell Barkley، أبرز باحث بمجال ADHD، تشرح كيف يؤدي ضعف الوظائف التنفيذية لصعوبة التخطيط والتنظيم — أساس نظري مباشر لآلية عمل التطبيق.",
+    "source": {
+      "name": "Russell Barkley — Executive Functioning and Self-Regulation in ADHD",
+      "type": "ورقة بحثية / خبير معتمد",
+      "url": "https://www.russellbarkley.org/factsheets/ADHD_EF_and_SR.pdf"
+    }
+  },
+  {
+    "id": "adhd_007",
+    "category": "2. المفاهيم السلوكية التطبيقية",
+    "concept": "عمى الوقت (Time Blindness) واستراتيجيات التعامل معه",
+    "content": "شرح للمفهوم مع استراتيجيات مبنية على الأدلة لمساعدة الشخص على إدراك الوقت والالتزام بالمواعيد — قابل للتحويل مباشرة لميزات بالتطبيق (تذكيرات، تصور الوقت بصريًا).",
+    "source": {
+      "name": "Simply Psychology — Time Blindness in ADHD: Evidence-Based Strategies",
+      "type": "مقالة متخصصة مبنية على أبحاث",
+      "url": "https://www.simplypsychology.com/articles/adhd-time-blindness-management"
+    }
+  },
+  {
+    "id": "adhd_008",
+    "category": "2. المفاهيم السلوكية التطبيقية",
+    "concept": "التسويف وبدء المهام (Task Initiation)",
+    "content": "دراسة حديثة (2026) في Nature Scientific Reports عن مخاطر التأخير والإنهاك لدى الطلاب ذوي نمط ADHD المركب — تدعم تصميم آلية 'تقسيم المهام لخطوات صغيرة' بالتطبيق.",
+    "source": {
+      "name": "The combined ADHD profile faces the greatest risk of delay, depletion and disengagement in university students (Nature Scientific Reports)",
+      "type": "دراسة علمية محكّمة (Nature)",
+      "url": "https://www.nature.com/articles/s41598-026-41256-1"
+    }
+  },
+  {
+    "id": "adhd_009",
+    "category": "2. المفاهيم السلوكية التطبيقية",
+    "concept": "الوظائف التنفيذية والإعاقة الوظيفية اليومية",
+    "content": "دراسة تجريبية تقارن الأداء الوظيفي اليومي بين البالغين المصابين وغير المصابين بADHD — تدعم الربط بين الأعراض وصعوبة الحياة اليومية المذكورة ببيان المشكلة.",
+    "source": {
+      "name": "Executive functioning, ADHD-associated behaviors, and functional impairments in adults",
+      "type": "دراسة علمية محكّمة (PMC)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7092442/"
+    }
+  },
+  {
+    "id": "adhd_010",
+    "category": "2. المفاهيم السلوكية التطبيقية",
+    "concept": "علم تكوين العادات (Habit Formation)",
+    "content": "دليل إرشادي أكاديمي لكيفية تتبع وقياس تكوّن العادات بالواقع — يفيد بتصميم آلية 'بناء روتين يومي تدريجي' بالتطبيق بدل التغيير المفاجئ.",
+    "source": {
+      "name": "How does habit form? Guidelines for tracking real-world habit formation",
+      "type": "مقالة علمية محكّمة",
+      "url": "https://www.tandfonline.com/doi/full/10.1080/23311908.2022.2041277"
+    }
+  },
+  {
+    "id": "adhd_011",
+    "category": "2. المفاهيم السلوكية التطبيقية",
+    "concept": "الاشتراط الإجرائي (Operant Conditioning) كأساس لتغيير السلوك",
+    "content": "فصل من كتاب دراسي مفتوح المصدر يشرح مبادئ Skinner بالتعزيز الإيجابي/السلبي — الأساس النظري لآلية 'المكافآت والتحفيز' بالتطبيق.",
+    "source": {
+      "name": "Operant Conditioning — Introduction to Psychology (Open Textbook BC)",
+      "type": "كتاب دراسي مفتوح (Open Textbook)",
+      "url": "https://opentextbc.ca/psychologymtdi/chapter/operant-conditioning/"
+    }
+  },
+  {
+    "id": "adhd_012",
+    "category": "3. العلاج السلوكي المعرفي (CBT) لـ ADHD",
+    "concept": "فعالية CBT للبالغين المصابين بADHD (مع علاج دوائي مستمر)",
+    "content": "تجربة سريرية عشوائية محكومة منشورة في JAMA تثبت فعالية CBT كعلاج مكمل للأدوية — مصدر قوي لدعم اختيار المنهج السلوكي المعرفي كأساس علمي للتطبيق.",
+    "source": {
+      "name": "CBT vs Relaxation with Educational Support for Medication-Treated Adults with ADHD",
+      "type": "تجربة سريرية عشوائية (JAMA)",
+      "url": "https://jamanetwork.com/journals/jama/fullarticle/186469"
+    }
+  },
+  {
+    "id": "adhd_013",
+    "category": "3. العلاج السلوكي المعرفي (CBT) لـ ADHD",
+    "concept": "فعالية CBT مع وبدون دواء",
+    "content": "تجربة سريرية عشوائية حديثة تقارن فعالية CBT مع وبدون علاج دوائي — تدعم موقفكم إن الدعم السلوكي مفيد حتى لمن لا يستخدم علاج دوائي.",
+    "source": {
+      "name": "Efficacy of CBT With and Without Medication for Adults With ADHD",
+      "type": "تجربة سريرية عشوائية (PubMed)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28413900/"
+    }
+  },
+  {
+    "id": "adhd_014",
+    "category": "3. العلاج السلوكي المعرفي (CBT) لـ ADHD",
+    "concept": "برنامج علاجي سلوكي معرفي معتمد (منهجية Safren)",
+    "content": "الكتاب/البرنامج العلاجي القياسي الأكثر اعتمادًا أكاديميًا لـCBT عند بالغي ADHD، صادر من Oxford University Press — مرجع أساسي لصياغة استراتيجيات الايجنت.",
+    "source": {
+      "name": "Safren et al. — Mastering Your Adult ADHD (Treatments That Work)",
+      "type": "كتاب أكاديمي معتمد (Oxford)",
+      "url": "https://global.oup.com/academic/product/mastering-your-adult-adhd-9780190235567"
+    }
+  },
+  {
+    "id": "adhd_015",
+    "category": "4. التنوع العصبي (Neurodiversity)",
+    "concept": "نموذج التنوع العصبي كإطار نقدي",
+    "content": "مراجعة أكاديمية محكّمة ترسم خريطة لإمكانيات هذا النموذج كبديل عن النظرة 'المرضية البحتة' — تفيد بصياغة نبرة تعاطفية غير وصمية بالتطبيق.",
+    "source": {
+      "name": "Neurodiversity studies: mapping out possibilities of a new critical paradigm",
+      "type": "مراجعة علمية محكّمة (PMC)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7611889/"
+    }
+  },
+  {
+    "id": "adhd_016",
+    "category": "4. التنوع العصبي (Neurodiversity)",
+    "concept": "لغة داعمة للتنوع العصبي خاصة بADHD",
+    "content": "ورقة بحثية حديثة تقترح مصطلحات وصياغات تواصل محترمة وغير وصمية عند الحديث عن ADHD — تستخدم مباشرة بصياغة ردود الايجنت.",
+    "source": {
+      "name": "Toward Neurodiversity-Affirming Language for ADHD (ResearchGate)",
+      "type": "ورقة بحثية",
+      "url": "https://www.researchgate.net/publication/397614620_Toward_Neurodiversity-Affirming_Language_for_ADHD"
+    }
+  },
+  {
+    "id": "adhd_017",
+    "category": "4. التنوع العصبي (Neurodiversity)",
+    "concept": "مراجعة نطاقية للأبحاث التجريبية حول التنوع العصبي",
+    "content": "مراجعة شاملة حديثة (2025) للدراسات التجريبية المتعلقة بمفهوم التنوع العصبي — تعطي خلفية علمية محدثة للمفهوم.",
+    "source": {
+      "name": "Neurodiversity: A scoping review of empirical research",
+      "type": "مراجعة علمية محكّمة (Sage)",
+      "url": "https://journals.sagepub.com/doi/10.1177/27546330251337874"
+    }
+  },
+  {
+    "id": "adhd_018",
+    "category": "5. مراجع ومناهج جامعية",
+    "concept": "مرجع تطبيقي شامل من أبرز باحث بمجال ADHD",
+    "content": "كتاب حديث لـRussell Barkley (دار Guilford Press الأكاديمية) يلخص 12 مبدأ أساسي للتعامل مع ADHD — مرجع تأسيسي قوي رغم عنوانه الموجه للأطفال، مبادئه قابلة للتطبيق بمرونة.",
+    "source": {
+      "name": "Barkley — 12 Principles for Raising a Child with ADHD",
+      "type": "كتاب أكاديمي",
+      "url": "https://www.routledge.com/12-Principles-for-Raising-a-Child-with-ADHD/Barkley/p/book/9781462542550"
+    }
+  },
+  {
+    "id": "adhd_019",
+    "category": "5. مراجع ومناهج جامعية",
+    "concept": "فصل ADHD من مقرر جامعي في علم النفس المرضي",
+    "content": "مصدر تدريسي جامعي مفتوح (LibGuide) يغطي ADHD كجزء من مقرر Abnormal Psychology — يفيد كنقطة انطلاق لفهم كيف تُدرّس الجامعات الموضوع أكاديميًا.",
+    "source": {
+      "name": "Hostos Community College — PSY 142 Abnormal Psychology, ADHD chapter",
+      "type": "مرجع تدريسي جامعي مفتوح",
+      "url": "https://guides.hostos.cuny.edu/psy142/5-2"
+    }
+  },
+  {
+    "id": "adhd_020",
+    "category": "5. مراجع ومناهج جامعية",
+    "concept": "قاعدة دراسات سابقة عربية عن ADHD",
+    "content": "فهرس لعناوين رسائل ودراسات أكاديمية عربية سابقة حول اضطراب فرط الحركة وتشتت الانتباه — مفيد لإيجاد أبحاث عربية إضافية بسرعة.",
+    "source": {
+      "name": "عناوين دراسات سابقة عربية حول اضطراب فرط الحركة",
+      "type": "قاعدة بيانات أكاديمية عربية",
+      "url": "https://drasah.com/Description.aspx?id=3283"
+    }
+  },
+  {
+    "id": "adhd_021",
+    "category": "1. اضطراب فرط الحركة وتشتت الانتباه (الأساس)",
+    "concept": "الإرشادات السريرية المعتمدة عالميًا (NICE)",
+    "content": "دليل NICE البريطاني الرسمي (NG87) لتشخيص وعلاج ADHD — أقوى مرجع 'رسمي' يوثّق الأعراض والتعريفات بدقة سريرية. يُستخدم لضبط لغة الايجنت العلمية دون أي ادّعاء تشخيصي.",
+    "source": {
+      "name": "NICE NG87 — ADHD: diagnosis and management",
+      "type": "إرشادات سريرية رسمية (NICE)",
+      "url": "https://www.nice.org.uk/guidance/ng87"
+    }
+  },
+  {
+    "id": "adhd_022",
+    "category": "1. اضطراب فرط الحركة وتشتت الانتباه (الأساس)",
+    "concept": "معايير التشخيص الرسمية (DSM-5-TR)",
+    "content": "جدول يلخص معايير الجمعية الأمريكية للطب النفسي (DSM-5) لتصنيف الأعراض والأنماط الفرعية الثلاثة (شارد الذهن / مفرط الحركة والاندفاع / مركّب)، صادر عن الأكاديمية الأمريكية لأطباء الأسرة (AAFP) كأداة سريرية مرجعية. للاستخدام كخلفية معرفية فقط — الايجنت لا يشخّص، بس يفهم الفروقات بين الأنماط ليخصص أسلوب التوجيه.",
+    "source": {
+      "name": "AAFP — DSM-5 Diagnostic Criteria for ADHD (Table)",
+      "type": "جدول معايير تشخيصية (AAFP)",
+      "url": "https://www.aafp.org/dam/AAFP/documents/patient_care/adhd_toolkit/adhd19-assessment-table1.pdf"
+    }
+  },
+  {
+    "id": "adhd_023",
+    "category": "2. المفاهيم السلوكية التطبيقية",
+    "concept": "المرافقة الجسدية (Body Doubling)",
+    "content": "تقنية مدعومة بأبحاث حديثة (2026) حيث وجود شخص آخر (حتى افتراضيًا) أثناء إنجاز المهمة يرفع الالتزام والتركيز بشكل ملحوظ — فكرة قابلة للتطبيق مباشرة كميزة 'رفقة افتراضية' بالتطبيق أثناء العمل على المهام.",
+    "source": {
+      "name": "Simply Psychology — Body Doubling: The ADHD Productivity Strategy",
+      "type": "مقالة علمية / دراسة أولية",
+      "url": "https://www.simplypsychology.com/articles/body-doubling-adhd"
+    }
+  },
+  {
+    "id": "adhd_024",
+    "category": "2. المفاهيم السلوكية التطبيقية",
+    "concept": "المرافقة الجسدية (Body Doubling)",
+    "content": "تقنية مدعومة بأبحاث حديثة (2026) حيث وجود شخص آخر (حتى افتراضيًا) أثناء إنجاز المهمة يرفع الالتزام والتركيز بشكل ملحوظ — فكرة قابلة للتطبيق مباشرة كميزة 'رفقة افتراضية' بالتطبيق أثناء العمل على المهام.",
+    "source": {
+      "name": "دراسة تصميم",
+      "type": "مقالة علمية / دراسة أولية",
+      "url": "https://arxiv.org/html/2509.12153v1"
+    }
+  },
+  {
+    "id": "adhd_025",
+    "category": "6. التنظيم العاطفي وفئات خاصة (إضافة بعد المراجعة)",
+    "concept": "حساسية الرفض العاطفية (Rejection Sensitive Dysphoria - RSD)",
+    "content": "ظاهرة شائعة جدًا عند ADHD: ألم عاطفي حاد من النقد أو الرفض المتصوَّر، يؤثر مباشرة على الحافز والمثابرة بالمهام. فهمها ضروري عشان الايجنت ما يكون رده 'قاسي' أو يزيد شعور المستخدم بالفشل عند التقصير بمهمة.",
+    "source": {
+      "name": "Additude Magazine — Rejection Sensitive Dysphoria: ADHD and Emotional Dysregulation",
+      "type": "مقالة متخصصة + دراسة نوعية (PMC)",
+      "url": "https://www.additudemag.com/rejection-sensitive-dysphoria-adhd-emotional-dysregulation/"
+    }
+  },
+  {
+    "id": "adhd_026",
+    "category": "6. التنظيم العاطفي وفئات خاصة (إضافة بعد المراجعة)",
+    "concept": "حساسية الرفض العاطفية (Rejection Sensitive Dysphoria - RSD)",
+    "content": "ظاهرة شائعة جدًا عند ADHD: ألم عاطفي حاد من النقد أو الرفض المتصوَّر، يؤثر مباشرة على الحافز والمثابرة بالمهام. فهمها ضروري عشان الايجنت ما يكون رده 'قاسي' أو يزيد شعور المستخدم بالفشل عند التقصير بمهمة.",
+    "source": {
+      "name": "دراسة نوعية — PMC / NCBI",
+      "type": "مقالة متخصصة + دراسة نوعية (PMC)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10569543/"
+    }
+  },
+  {
+    "id": "adhd_027",
+    "category": "6. التنظيم العاطفي وفئات خاصة (إضافة بعد المراجعة)",
+    "concept": "اضطرابات مرافقة شائعة (قلق، اضطرابات نوم، صعوبة تنظيم انفعالي)",
+    "content": "دراسات حديثة (2025-2026) تُظهر ترابط قوي بين ADHD ومشاكل النوم والقلق وصعوبة التنظيم الانفعالي — هذي غالبًا سبب رئيسي وراء 'تأثر جودة الحياة اليومية' المذكور ببيان المشكلة، مو بس صعوبة التخطيط نفسها.",
+    "source": {
+      "name": "Emotion regulation & sleep quality in adults with ADHD — BMC Psychiatry",
+      "type": "دراسات علمية محكّمة (BMC Psychiatry / Frontiers)",
+      "url": "https://link.springer.com/article/10.1186/s12888-025-06875-4"
+    }
+  },
+  {
+    "id": "adhd_028",
+    "category": "6. التنظيم العاطفي وفئات خاصة (إضافة بعد المراجعة)",
+    "concept": "اضطرابات مرافقة شائعة (قلق، اضطرابات نوم، صعوبة تنظيم انفعالي)",
+    "content": "دراسات حديثة (2025-2026) تُظهر ترابط قوي بين ADHD ومشاكل النوم والقلق وصعوبة التنظيم الانفعالي — هذي غالبًا سبب رئيسي وراء 'تأثر جودة الحياة اليومية' المذكور ببيان المشكلة، مو بس صعوبة التخطيط نفسها.",
+    "source": {
+      "name": "Adult ADHD and comorbid anxiety — Frontiers in Psychiatry",
+      "type": "دراسات علمية محكّمة (BMC Psychiatry / Frontiers)",
+      "url": "https://www.frontiersin.org/journals/psychiatry/articles/10.3389/fpsyt.2025.1597559/full"
+    }
+  },
+  {
+    "id": "adhd_029",
+    "category": "6. التنظيم العاطفي وفئات خاصة (إضافة بعد المراجعة)",
+    "concept": "ADHD عند النساء (نمط مختلف وتشخيص متأخر غالبًا)",
+    "content": "أبحاث حديثة تؤكد إن ADHD عند النساء يظهر بأنماط أقل وضوحًا (شرود ذهني أكثر من فرط حركة ظاهر) وغالبًا يُكتشف متأخر — نقطة مهمة جدًا لمنتجكم كون مؤسسة الفكرة امرأة، وتضيف بُعد تمثيلي وواقعي قوي للفكرة أمام اللجنة.",
+    "source": {
+      "name": "Adverse experiences of women with undiagnosed ADHD — Nature Scientific Reports",
+      "type": "دراسات علمية محكّمة (Nature Scientific Reports / SAGE)",
+      "url": "https://www.nature.com/articles/s41598-025-04782-y"
+    }
+  },
+  {
+    "id": "adhd_030",
+    "category": "6. التنظيم العاطفي وفئات خاصة (إضافة بعد المراجعة)",
+    "concept": "ADHD عند النساء (نمط مختلف وتشخيص متأخر غالبًا)",
+    "content": "أبحاث حديثة تؤكد إن ADHD عند النساء يظهر بأنماط أقل وضوحًا (شرود ذهني أكثر من فرط حركة ظاهر) وغالبًا يُكتشف متأخر — نقطة مهمة جدًا لمنتجكم كون مؤسسة الفكرة امرأة، وتضيف بُعد تمثيلي وواقعي قوي للفكرة أمام اللجنة.",
+    "source": {
+      "name": "Miss. Diagnosis: Systematic Review of ADHD in Adult Women — SAGE",
+      "type": "دراسات علمية محكّمة (Nature Scientific Reports / SAGE)",
+      "url": "https://journals.sagepub.com/doi/10.1177/10870547231161533"
+    }
+  }
+]

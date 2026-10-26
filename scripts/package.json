@@ -1,0 +1,17 @@
+{
+  "name": "@workspace/scripts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check:duplicate-pages": "tsx ./src/check-duplicate-pages.ts",
+    "hello": "tsx ./src/hello.ts",
+    "test:duplicate-pages": "tsx --test ./src/check-duplicate-pages.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "~5.9.3",
+    "tsx": "catalog:"
+  }
+}

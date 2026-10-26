@@ -1,0 +1,11 @@
+import React from 'react';
+
+export default function Dashboard() {
+  return <main>Stale dashboard</main>;
+}
+
+import { Link } from 'wouter';
+
+export default function Dashboard() {
+  return <Link href="/">Corrected dashboard</Link>;
+}

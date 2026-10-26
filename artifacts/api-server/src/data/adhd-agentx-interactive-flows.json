@@ -1,0 +1,407 @@
+{
+  "version": "1.0",
+  "name": "ADHD_AgentX_Interactive_Flows",
+  "purpose": "Interactive conversation flows for helping users identify and prioritize daily needs and tasks.",
+  "agent_rules": {
+    "one_question_at_a_time": true,
+    "max_options_per_question": 4,
+    "use_buttons_when_options_are_available": true,
+    "adapt_next_question_to_previous_answer": true,
+    "goal": "Help the user identify immediate needs and organize priorities.",
+    "do_not_diagnose": true,
+    "do_not_provide_medical_treatment": true,
+    "use_knowledge_base_for_context": true,
+    "priority_numbering": {
+      "enabled": true,
+      "meaning": "1 = highest priority, larger numbers = lower priority",
+      "output_field": "priority",
+      "sort_order": "ascending",
+      "format": "priority number + task + reason",
+      "example": [
+        {
+          "priority": 1,
+          "task": "تسليم المشروع",
+          "reason": "موعده اليوم وتأثيره مرتفع"
+        },
+        {
+          "priority": 2,
+          "task": "إرسال الإيميل",
+          "reason": "مهم وموعده قريب"
+        }
+      ]
+    }
+  },
+  "response_format": {
+    "message": "string",
+    "options": [
+      {
+        "id": "string",
+        "label": "string",
+        "value": "string"
+      }
+    ],
+    "allow_free_text": true,
+    "next_action": "ask | prioritize | start_task | summarize"
+  },
+  "flows": [
+    {
+      "id": "start",
+      "trigger": "conversation_start",
+      "steps": [
+        {
+          "id": "start_01",
+          "message": "وش أكثر شيء تحتاج مساعدة فيه الآن؟",
+          "options": [
+            {
+              "id": "many_tasks",
+              "label": "عندي مهام كثيرة",
+              "value": "many_tasks"
+            },
+            {
+              "id": "cant_start",
+              "label": "ما أقدر أبدأ",
+              "value": "cant_start"
+            },
+            {
+              "id": "time",
+              "label": "أنسى المواعيد والوقت",
+              "value": "time"
+            },
+            {
+              "id": "overwhelmed",
+              "label": "أشعر بالتشتت",
+              "value": "overwhelmed"
+            }
+          ],
+          "next_action": "ask"
+        }
+      ]
+    },
+    {
+      "id": "many_tasks",
+      "trigger": "many_tasks",
+      "steps": [
+        {
+          "id": "many_tasks_01",
+          "message": "تمام، خلينا نرتبها وحدة وحدة. كم مهمة عندك تقريبًا؟",
+          "options": [
+            {
+              "id": "one_to_three",
+              "label": "1–3",
+              "value": "1_3"
+            },
+            {
+              "id": "four_to_six",
+              "label": "4–6",
+              "value": "4_6"
+            },
+            {
+              "id": "seven_plus",
+              "label": "7 أو أكثر",
+              "value": "7_plus"
+            }
+          ],
+          "next_action": "ask"
+        },
+        {
+          "id": "many_tasks_02",
+          "message": "اكتب لي المهام، حتى لو كانت كثيرة، وأنا أرتبها معك.",
+          "options": [],
+          "allow_free_text": true,
+          "next_action": "prioritize"
+        }
+      ]
+    },
+    {
+      "id": "cant_start",
+      "trigger": "cant_start",
+      "knowledge_concepts": [
+        "التسويف وبدء المهام (Task Initiation)",
+        "الوظائف التنفيذية والتنظيم الذاتي"
+      ],
+      "steps": [
+        {
+          "id": "cant_start_01",
+          "message": "خلينا نصغرها بدل ما نفكر بالمهمة كاملة. وش المهمة اللي تحاول تبدأها؟",
+          "options": [],
+          "allow_free_text": true,
+          "next_action": "ask"
+        },
+        {
+          "id": "cant_start_02",
+          "message": "وش أقرب شيء تقدر تسويه منها خلال 5–15 دقيقة؟",
+          "options": [
+            {
+              "id": "open",
+              "label": "أفتح وأجهز فقط",
+              "value": "open_prepare"
+            },
+            {
+              "id": "first_step",
+              "label": "أسوي أول خطوة",
+              "value": "first_step"
+            },
+            {
+              "id": "not_sure",
+              "label": "مو عارف",
+              "value": "not_sure"
+            }
+          ],
+          "next_action": "start_task"
+        }
+      ]
+    },
+    {
+      "id": "time",
+      "trigger": "time",
+      "knowledge_concepts": [
+        "عمى الوقت (Time Blindness) واستراتيجيات التعامل معه"
+      ],
+      "steps": [
+        {
+          "id": "time_01",
+          "message": "وش الشيء اللي تحتاج تتذكر وقته؟",
+          "options": [
+            {
+              "id": "deadline",
+              "label": "موعد تسليم",
+              "value": "deadline"
+            },
+            {
+              "id": "appointment",
+              "label": "موعد",
+              "value": "appointment"
+            },
+            {
+              "id": "task",
+              "label": "مهمة",
+              "value": "task"
+            },
+            {
+              "id": "routine",
+              "label": "روتين يومي",
+              "value": "routine"
+            }
+          ],
+          "next_action": "ask"
+        },
+        {
+          "id": "time_02",
+          "message": "متى الموعد أو آخر وقت لإنجازها؟",
+          "options": [
+            {
+              "id": "today",
+              "label": "اليوم",
+              "value": "today"
+            },
+            {
+              "id": "tomorrow",
+              "label": "بكرة",
+              "value": "tomorrow"
+            },
+            {
+              "id": "this_week",
+              "label": "هذا الأسبوع",
+              "value": "this_week"
+            },
+            {
+              "id": "no_deadline",
+              "label": "ما لها موعد",
+              "value": "no_deadline"
+            }
+          ],
+          "next_action": "prioritize"
+        }
+      ]
+    },
+    {
+      "id": "overwhelmed",
+      "trigger": "overwhelmed",
+      "knowledge_concepts": [
+        "الوظائف التنفيذية والتنظيم الذاتي",
+        "التسويف وبدء المهام (Task Initiation)",
+        "التنظيم العاطفي"
+      ],
+      "steps": [
+        {
+          "id": "overwhelmed_01",
+          "message": "ولا يهمك، ما نحتاج نحل كل شيء الآن. وش أكثر شيء ضاغط عليك؟",
+          "options": [
+            {
+              "id": "work_study",
+              "label": "دراسة / عمل",
+              "value": "work_study"
+            },
+            {
+              "id": "personal",
+              "label": "أمور شخصية",
+              "value": "personal"
+            },
+            {
+              "id": "appointments",
+              "label": "مواعيد والتزامات",
+              "value": "appointments"
+            },
+            {
+              "id": "everything",
+              "label": "كلها مع بعض",
+              "value": "everything"
+            }
+          ],
+          "next_action": "ask"
+        },
+        {
+          "id": "overwhelmed_02",
+          "message": "خلينا نختار شيء واحد فقط كبداية. وش أكثر شيء له موعد قريب أو تأثير كبير عليك؟",
+          "options": [
+            {
+              "id": "urgent",
+              "label": "له موعد قريب",
+              "value": "urgent"
+            },
+            {
+              "id": "important",
+              "label": "مهم جدًا",
+              "value": "important"
+            },
+            {
+              "id": "small_easy",
+              "label": "شيء بسيط أقدر أبدأ فيه",
+              "value": "small_easy"
+            },
+            {
+              "id": "not_sure",
+              "label": "مو متأكد",
+              "value": "not_sure"
+            }
+          ],
+          "next_action": "prioritize"
+        }
+      ]
+    }
+  ],
+  "priority_rules": [
+    {
+      "rule": 1,
+      "factor": "deadline",
+      "description": "Assess deadline on a 1–5 scale; closer deadlines receive higher scores."
+    },
+    {
+      "rule": 2,
+      "factor": "user_importance",
+      "description": "Assess importance according to the user's own input on a 1–5 scale."
+    },
+    {
+      "rule": 3,
+      "factor": "impact",
+      "description": "Assess the consequence of not completing the task on a 1–5 scale."
+    },
+    {
+      "rule": 4,
+      "factor": "score",
+      "description": "Add the three factor scores to produce the Priority Score from 3 to 15."
+    },
+    {
+      "rule": 5,
+      "factor": "numbering",
+      "description": "Sort by Priority Score from highest to lowest and assign 1 to the highest-priority task."
+    },
+    {
+      "rule": 6,
+      "factor": "actionability",
+      "description": "If a high-priority task is large or difficult to start, provide one small actionable first step."
+    },
+    {
+      "rule": 7,
+      "factor": "overwhelm",
+      "description": "If the user feels overwhelmed, focus on the highest-priority task first and reduce the number of choices."
+    },
+    {
+      "rule": 8,
+      "factor": "clarification",
+      "description": "If required information is missing, ask the user instead of guessing."
+    }
+  ],
+  "final_response_template": {
+    "message": "هذه أولوياتك الآن، مرتبة من الأهم إلى الأقل أهمية:",
+    "items": [
+      {
+        "priority": 1,
+        "task": "اسم المهمة",
+        "reason": "سبب وضعها في هذه المرتبة",
+        "next_step": "أول خطوة صغيرة",
+        "priority_score_internal": 15
+      }
+    ],
+    "display_note": "Do not show priority_score_internal by default.",
+    "buttons": [
+      {
+        "id": "start_first",
+        "label": "نبدأ بالأولوية 1",
+        "next_action": "start_priority_1"
+      },
+      {
+        "id": "edit_priorities",
+        "label": "أعدل الأولويات",
+        "next_action": "edit_priorities"
+      },
+      {
+        "id": "review_priorities",
+        "label": "أراجعها",
+        "next_action": "review_priorities"
+      }
+    ]
+  },
+  "priority_scoring": {
+    "enabled": true,
+    "scale": {
+      "min": 1,
+      "max": 5,
+      "meaning": "5 = highest"
+    },
+    "factors": [
+      {
+        "id": "deadline",
+        "label": "Deadline",
+        "description": "How soon the task is due.",
+        "score_guide": {
+          "5": "Due today or overdue",
+          "4": "Due within 2 days",
+          "3": "Due within 3–7 days",
+          "2": "Due within 1–2 weeks",
+          "1": "No deadline or more than 2 weeks away"
+        }
+      },
+      {
+        "id": "importance",
+        "label": "Importance",
+        "description": "How important the user says the task is.",
+        "score_guide": {
+          "5": "Extremely important",
+          "4": "Very important",
+          "3": "Moderately important",
+          "2": "Low importance",
+          "1": "Not important"
+        }
+      },
+      {
+        "id": "impact",
+        "label": "Impact",
+        "description": "The impact of not completing the task.",
+        "score_guide": {
+          "5": "Major negative impact",
+          "4": "High impact",
+          "3": "Moderate impact",
+          "2": "Low impact",
+          "1": "Minimal impact"
+        }
+      }
+    ],
+    "formula": "priority_score = deadline + importance + impact",
+    "maximum_score": 15,
+    "minimum_score": 3,
+    "ranking": "Sort tasks by priority_score descending. Assign priority 1 to the highest score, then 2, 3, and so on.",
+    "tie_breaker": "If two tasks have the same score, prefer the task with the closer deadline. If still tied, ask the user which is more important instead of guessing.",
+    "user_display": "Show the numbered priority and task name. The score can be hidden unless the user asks how the priority was determined."
+  }
+}
