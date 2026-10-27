@@ -78,6 +78,7 @@ test("signup session and Declutter ownership survive the full auth lifecycle", a
   const name = `Release ${runId.slice(0, 8)}`;
   const ownedMarker = `ownership-${runId}`;
   const anonymousMarker = `anonymous-${runId}`;
+  let accessToken: string | undefined;
   let ownedConversationId: number | string | undefined;
 
   await page.goto("/sign-up");
@@ -97,7 +98,7 @@ test("signup session and Declutter ownership survive the full auth lifecycle", a
   await expect(page.getByTestId("list-declutter-history")).toBeVisible();
 
   const cookies = await page.context().cookies();
-  const accessToken = cookies.find((cookie) => cookie.name === "afta_sb_access")?.value;
+  accessToken = cookies.find((cookie) => cookie.name === "afta_sb_access")?.value;
   expect(accessToken, "Supabase access cookie should be set after signup").toBeTruthy();
 
   const supabaseUser = await authenticatedSupabaseIdentity(request, accessToken!);

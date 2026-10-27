@@ -14,6 +14,7 @@ import {
   useStartNewInternalChatConversation,
   useUpdateInternalChatStep,
   type InternalChatMessage,
+  type AgentResponse
 } from '@workspace/api-client-react';
 
 const MermaidFlowchart = lazy(() => import('./mermaid-flowchart'));

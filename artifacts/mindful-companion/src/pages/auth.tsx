@@ -4,6 +4,7 @@ import {
   ArrowRight,
   Eye,
   EyeOff,
+  KeyRound,
   Leaf,
   LoaderCircle,
   Mail,

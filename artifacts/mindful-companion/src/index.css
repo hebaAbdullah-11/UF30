@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
-@import './styles/tokens.css';
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -36,61 +35,59 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root, .dark {
-  /* Semantic tokens for Tailwind / shadcn components, all derived from the
-     brand tokens in styles/tokens.css. Repeated on .dark so a .dark subtree
-     re-resolves them. */
-  --button-outline: hsl(var(--uf-ink) / .14);
-  --badge-outline: hsl(var(--uf-ink) / .08);
+:root {
+  /* Palette matches the UF30 pages (pages/uf30.css): paper #f4f6f8, ink #172334,
+     blue #2458a6, deep #17396b, line #d9e0e9, muted #667386. */
+  --button-outline: rgba(23, 57, 107, .14);
+  --badge-outline: rgba(23, 57, 107, .08);
   --opaque-button-border-intensity: -8;
-  --elevate-1: hsl(var(--uf-ink) / .04);
-  --elevate-2: hsl(var(--uf-ink) / .08);
-  --background: var(--uf-bg);
-  --foreground: var(--uf-ink);
-  --border: var(--uf-line);
-  --card: var(--uf-surface);
-  --card-foreground: var(--uf-ink);
-  --card-border: var(--uf-line);
-  --sidebar: var(--uf-subtle);
-  --sidebar-foreground: var(--uf-ink);
-  --sidebar-border: var(--uf-line);
-  --sidebar-primary: var(--uf-primary);
-  --sidebar-primary-foreground: var(--uf-on-primary);
-  --sidebar-accent: var(--uf-primary-soft);
-  --sidebar-accent-foreground: var(--uf-primary-deep);
-  --sidebar-ring: var(--uf-primary);
-  --popover: var(--uf-surface);
-  --popover-foreground: var(--uf-ink);
-  --popover-border: var(--uf-line);
-  --primary: var(--uf-primary);
-  --primary-foreground: var(--uf-on-primary);
-  --secondary: var(--uf-primary-soft);
-  --secondary-foreground: var(--uf-primary-deep);
-  --muted: var(--uf-subtle);
-  --muted-foreground: var(--uf-text-muted);
-  --accent: var(--uf-primary-soft);
-  --accent-foreground: var(--uf-primary-deep);
-  --destructive: var(--uf-danger);
-  --destructive-foreground: var(--uf-on-primary);
-  --input: var(--uf-line-strong);
-  --ring: var(--uf-primary);
-  --chart-1: var(--uf-primary);
+  --elevate-1: rgba(23, 57, 107, .04);
+  --elevate-2: rgba(23, 57, 107, .08);
+  --background: 210 22% 96%;
+  --foreground: 215 39% 15%;
+  --border: 214 27% 88%;
+  --card: 0 0% 100%;
+  --card-foreground: 215 39% 15%;
+  --card-border: 214 27% 88%;
+  --sidebar: 213 32% 93%;
+  --sidebar-foreground: 215 39% 15%;
+  --sidebar-border: 214 27% 88%;
+  --sidebar-primary: 216 64% 40%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 213 44% 90%;
+  --sidebar-accent-foreground: 216 65% 25%;
+  --sidebar-ring: 216 64% 40%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 39% 15%;
+  --popover-border: 214 27% 88%;
+  --primary: 216 64% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 214 41% 93%;
+  --secondary-foreground: 216 65% 25%;
+  --muted: 213 32% 93%;
+  --muted-foreground: 216 14% 46%;
+  --accent: 213 44% 90%;
+  --accent-foreground: 216 65% 25%;
+  --destructive: 5 63% 48%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 214 24% 82%;
+  --ring: 216 64% 40%;
+  --chart-1: 216 64% 40%;
   --chart-2: 213 70% 62%;
   --chart-3: 199 60% 48%;
-  --chart-4: 260 50% 62%;
+  --chart-4: 230 45% 62%;
   --chart-5: 186 45% 42%;
-  --app-font-sans: var(--uf-font);
-  --app-font-serif: var(--uf-font);
+  --app-font-serif: 'Cairo', sans-serif;
   --app-font-mono: 'DM Mono', monospace;
-  --radius: var(--uf-radius);
-  --shadow-2xs: 0 2px 0 hsl(var(--uf-ink) / .02);
-  --shadow-xs: 0 4px 10px hsl(var(--uf-ink) / .04);
-  --shadow-sm: 0 8px 20px hsl(var(--uf-ink) / .06);
-  --shadow: 0 12px 30px hsl(var(--uf-ink) / .08);
-  --shadow-md: 0 18px 45px hsl(var(--uf-ink) / .1);
-  --shadow-lg: 0 24px 60px hsl(var(--uf-ink) / .12);
-  --shadow-xl: 0 30px 80px hsl(var(--uf-ink) / .14);
-  --shadow-2xl: 0 40px 100px hsl(var(--uf-ink) / .18);
+  --radius: 1rem;
+  --shadow-2xs: 0 2px 0 hsl(216 65% 25% / .02);
+  --shadow-xs: 0 4px 10px hsl(216 65% 25% / .04);
+  --shadow-sm: 0 8px 20px hsl(216 65% 25% / .06);
+  --shadow: 0 12px 30px hsl(216 65% 25% / .08);
+  --shadow-md: 0 18px 45px hsl(216 65% 25% / .11);
+  --shadow-lg: 0 24px 60px hsl(216 65% 25% / .14);
+  --shadow-xl: 0 30px 80px hsl(216 65% 25% / .16);
+  --shadow-2xl: 0 40px 100px hsl(216 65% 25% / .2);
   --tracking-normal: 0em;
   --spacing: .25rem;
   --sidebar-primary-border: hsl(var(--sidebar-primary));
@@ -102,7 +99,50 @@
   --destructive-border: hsl(var(--destructive));
 }
 
+.dark {
+  --background: 216 45% 9%;
+  --foreground: 210 22% 95%;
+  --border: 216 30% 22%;
+  --card: 216 40% 13%;
+  --card-foreground: 210 22% 95%;
+  --card-border: 216 30% 22%;
+  --sidebar: 216 40% 12%;
+  --sidebar-foreground: 210 22% 95%;
+  --sidebar-border: 216 30% 22%;
+  --sidebar-primary: 213 80% 70%;
+  --sidebar-primary-foreground: 216 45% 10%;
+  --sidebar-accent: 216 40% 24%;
+  --sidebar-accent-foreground: 213 60% 88%;
+  --sidebar-ring: 213 80% 70%;
+  --popover: 216 40% 13%;
+  --popover-foreground: 210 22% 95%;
+  --popover-border: 216 30% 22%;
+  --primary: 213 80% 70%;
+  --primary-foreground: 216 45% 10%;
+  --secondary: 216 35% 20%;
+  --secondary-foreground: 210 22% 95%;
+  --muted: 216 35% 18%;
+  --muted-foreground: 214 20% 70%;
+  --accent: 216 40% 24%;
+  --accent-foreground: 213 60% 88%;
+  --destructive: 5 63% 62%;
+  --destructive-foreground: 216 45% 10%;
+  --input: 216 30% 28%;
+  --ring: 213 80% 70%;
+  --chart-1: 213 80% 70%;
+  --chart-2: 213 70% 62%;
+  --chart-3: 199 60% 55%;
+  --chart-4: 230 45% 68%;
+  --chart-5: 186 45% 52%;
+}
 
+:root[lang="ar"] {
+  --app-font-sans: 'Cairo', sans-serif;
+}
+
+:root[lang="en"] {
+  --app-font-sans: 'Manrope', sans-serif;
+}
 
 @layer base {
   * { @apply border-border; }
@@ -115,9 +155,6 @@
 
 html { scroll-behavior: smooth; }
 body { overflow-x: hidden; }
-@layer base {
-  :focus-visible { outline: 2px solid hsl(var(--uf-primary)); outline-offset: 2px; }
-}
 button, a, input { -webkit-tap-highlight-color: transparent; }
 ::selection { background: hsl(var(--accent) / .42); color: hsl(var(--foreground)); }
 .font-arabic { font-family: var(--app-font-sans); }

@@ -401,8 +401,6 @@ export function ChatMediaComposer({
 
           {audio && (audioPhase === 'ready' || audioPhase === 'uploading' || audioPhase === 'transcribing') && (
             <div className="flex flex-col gap-2 rounded-[1.5rem] border border-accent/25 bg-accent/10 p-2" data-testid={`preview-${section}-audio`}>
-              {/* The user's own just-recorded voice note; it is transcribed below, so no caption track exists. */}
-              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <audio src={audio.url} controls className="h-11 w-full min-w-0" aria-label={c('audioReady')} />
               <div className="flex flex-wrap items-center justify-end gap-2">
                 {audioPhase === 'ready' ? (
