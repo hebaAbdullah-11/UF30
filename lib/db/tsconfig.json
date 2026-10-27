@@ -6,7 +6,19 @@
     "emitDeclarationOnly": true,
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "../day-core"
+    }
+  ],
+  "exclude": [
+    "src/**/*.test.ts"
+  ]
 }
