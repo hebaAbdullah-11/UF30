@@ -30,7 +30,7 @@ export const AFTA_FEATURES: AftaFeature[] = [
     tags: { ar: ['تأمل', 'عند الطلب'], en: ['Reflection', 'On request'] } },
   { id: 'portal', path: '/user-portal', index: '05', optional: true,
     title: { ar: 'البوابة الشخصية', en: 'Personal portal' },
-    body: { ar: 'تعريف شخصي وتقييم ذاتي اختياري وخطوات البدء الحالية.', en: 'Personal introduction, optional self-assessment, and current onboarding.' },
+    body: { ar: 'تعريف شخصي باهتماماتك واحتياجاتك اليومية وطريقة الدعم التي تناسبك.', en: 'A personal introduction to your interests, daily needs, and the support style that suits you.' },
     tags: { ar: ['اختياري', 'تعريف'], en: ['Optional', 'Introduction'] } },
   { id: 'dashboard', path: '/dashboard', index: '06',
     title: { ar: 'مساحة أفتا', en: 'AFTA workspace' },

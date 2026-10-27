@@ -461,18 +461,8 @@ export const getUserOnboardingResponseChatAnswersDailyNeedsMax = 4;
 
 export const GetUserOnboardingResponse = zod.object({
   "id": zod.string(),
-  "stage": zod.enum(['intro', 'assessment', 'result', 'chat', 'complete']),
+  "stage": zod.enum(['intro', 'chat', 'complete']),
   "introStep": zod.number().int(),
-  "assessmentStep": zod.number().int(),
-  "assessmentAnswers": zod.object({
-  "q1": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q2": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q3": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q4": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q5": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q6": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional()
-}),
-  "assessmentResult": zod.union([zod.literal('inattentive'),zod.literal('hyperactive_impulsive'),zod.literal('combined'),zod.literal('balanced'),zod.literal(null)]).nullable(),
   "chatAnswers": zod.object({
   "interests": zod.array(zod.enum(['interestCreative', 'interestWork', 'interestHealth', 'interestLearning'])).max(getUserOnboardingResponseChatAnswersInterestsMax),
   "dailyNeeds": zod.array(zod.enum(['needFocus', 'needStart', 'needRest', 'needOrganize'])).max(getUserOnboardingResponseChatAnswersDailyNeedsMax),
@@ -490,9 +480,6 @@ export const GetUserOnboardingResponse = zod.object({
 export const updateUserOnboardingBodyIntroStepMin = 0;
 export const updateUserOnboardingBodyIntroStepMax = 3;
 
-export const updateUserOnboardingBodyAssessmentStepMin = 0;
-export const updateUserOnboardingBodyAssessmentStepMax = 5;
-
 export const updateUserOnboardingBodyChatAnswersInterestsMax = 4;
 
 export const updateUserOnboardingBodyChatAnswersDailyNeedsMax = 4;
@@ -500,17 +487,8 @@ export const updateUserOnboardingBodyChatAnswersDailyNeedsMax = 4;
 
 
 export const UpdateUserOnboardingBody = zod.object({
-  "stage": zod.enum(['intro', 'assessment', 'result', 'chat', 'complete']).optional(),
+  "stage": zod.enum(['intro', 'chat', 'complete']).optional(),
   "introStep": zod.number().int().min(updateUserOnboardingBodyIntroStepMin).max(updateUserOnboardingBodyIntroStepMax).optional(),
-  "assessmentStep": zod.number().int().min(updateUserOnboardingBodyAssessmentStepMin).max(updateUserOnboardingBodyAssessmentStepMax).optional(),
-  "assessmentAnswers": zod.object({
-  "q1": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q2": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q3": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q4": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q5": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q6": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional()
-}).optional(),
   "chatAnswers": zod.object({
   "interests": zod.array(zod.enum(['interestCreative', 'interestWork', 'interestHealth', 'interestLearning'])).max(updateUserOnboardingBodyChatAnswersInterestsMax),
   "dailyNeeds": zod.array(zod.enum(['needFocus', 'needStart', 'needRest', 'needOrganize'])).max(updateUserOnboardingBodyChatAnswersDailyNeedsMax),
@@ -526,18 +504,8 @@ export const updateUserOnboardingResponseChatAnswersDailyNeedsMax = 4;
 
 export const UpdateUserOnboardingResponse = zod.object({
   "id": zod.string(),
-  "stage": zod.enum(['intro', 'assessment', 'result', 'chat', 'complete']),
+  "stage": zod.enum(['intro', 'chat', 'complete']),
   "introStep": zod.number().int(),
-  "assessmentStep": zod.number().int(),
-  "assessmentAnswers": zod.object({
-  "q1": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q2": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q3": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q4": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q5": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional(),
-  "q6": zod.enum(['rarely', 'sometimes', 'often', 'very_often']).optional()
-}),
-  "assessmentResult": zod.union([zod.literal('inattentive'),zod.literal('hyperactive_impulsive'),zod.literal('combined'),zod.literal('balanced'),zod.literal(null)]).nullable(),
   "chatAnswers": zod.object({
   "interests": zod.array(zod.enum(['interestCreative', 'interestWork', 'interestHealth', 'interestLearning'])).max(updateUserOnboardingResponseChatAnswersInterestsMax),
   "dailyNeeds": zod.array(zod.enum(['needFocus', 'needStart', 'needRest', 'needOrganize'])).max(updateUserOnboardingResponseChatAnswersDailyNeedsMax),

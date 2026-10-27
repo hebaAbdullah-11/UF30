@@ -479,40 +479,9 @@ export type OnboardingStage = typeof OnboardingStage[keyof typeof OnboardingStag
 
 export const OnboardingStage = {
   intro: 'intro',
-  assessment: 'assessment',
-  result: 'result',
   chat: 'chat',
   complete: 'complete',
 } as const;
-
-export type AssessmentResult = typeof AssessmentResult[keyof typeof AssessmentResult];
-
-
-export const AssessmentResult = {
-  inattentive: 'inattentive',
-  hyperactive_impulsive: 'hyperactive_impulsive',
-  combined: 'combined',
-  balanced: 'balanced',
-} as const;
-
-export type AssessmentAnswerValue = typeof AssessmentAnswerValue[keyof typeof AssessmentAnswerValue];
-
-
-export const AssessmentAnswerValue = {
-  rarely: 'rarely',
-  sometimes: 'sometimes',
-  often: 'often',
-  very_often: 'very_often',
-} as const;
-
-export interface AssessmentAnswers {
-  q1?: AssessmentAnswerValue;
-  q2?: AssessmentAnswerValue;
-  q3?: AssessmentAnswerValue;
-  q4?: AssessmentAnswerValue;
-  q5?: AssessmentAnswerValue;
-  q6?: AssessmentAnswerValue;
-}
 
 export type OnboardingChatAnswersInterestsItem = typeof OnboardingChatAnswersInterestsItem[keyof typeof OnboardingChatAnswersInterestsItem];
 
@@ -558,36 +527,13 @@ export interface OnboardingUpdate {
      * @maximum 3
      */
   introStep?: number;
-  /**
-     * @minimum 0
-     * @maximum 5
-     */
-  assessmentStep?: number;
-  assessmentAnswers?: AssessmentAnswers;
   chatAnswers?: OnboardingChatAnswers;
 }
-
-/**
- * @nullable
- */
-export type UserOnboardingAssessmentResult = typeof UserOnboardingAssessmentResult[keyof typeof UserOnboardingAssessmentResult] | null;
-
-
-export const UserOnboardingAssessmentResult = {
-  inattentive: 'inattentive',
-  hyperactive_impulsive: 'hyperactive_impulsive',
-  combined: 'combined',
-  balanced: 'balanced',
-} as const;
 
 export interface UserOnboarding {
   id: string;
   stage: OnboardingStage;
   introStep: number;
-  assessmentStep: number;
-  assessmentAnswers: AssessmentAnswers;
-  /** @nullable */
-  assessmentResult: UserOnboardingAssessmentResult;
   chatAnswers: OnboardingChatAnswers;
   /** @nullable */
   completedAt: string | null;

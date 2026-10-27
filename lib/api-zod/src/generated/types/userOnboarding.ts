@@ -5,19 +5,13 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
-import type { AssessmentAnswers } from './assessmentAnswers';
 import type { OnboardingChatAnswers } from './onboardingChatAnswers';
 import type { OnboardingStage } from './onboardingStage';
-import type { UserOnboardingAssessmentResult } from './userOnboardingAssessmentResult';
 
 export interface UserOnboarding {
   id: string;
   stage: OnboardingStage;
   introStep: number;
-  assessmentStep: number;
-  assessmentAnswers: AssessmentAnswers;
-  /** @nullable */
-  assessmentResult: UserOnboardingAssessmentResult;
   chatAnswers: OnboardingChatAnswers;
   /** @nullable */
   completedAt: Date | null;

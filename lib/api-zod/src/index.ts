@@ -9,9 +9,6 @@ export type {
   AgentTaskSequenceResponse,
   AgentTextResponse,
   AgentThoughtClustersResponse,
-  AssessmentAnswers,
-  AssessmentAnswerValue,
-  AssessmentResult,
   AuthErrorResponse,
   AuthResponse,
   AuthUser,
@@ -42,7 +39,6 @@ export type {
   TaskStepUpdate,
   ThoughtCluster,
   UserOnboarding,
-  UserOnboardingAssessmentResult,
   UserProfile,
   UserProfileInput,
 } from "./generated/types";

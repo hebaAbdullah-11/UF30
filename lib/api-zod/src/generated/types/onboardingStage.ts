@@ -11,8 +11,6 @@ export type OnboardingStage = typeof OnboardingStage[keyof typeof OnboardingStag
 
 export const OnboardingStage = {
   intro: 'intro',
-  assessment: 'assessment',
-  result: 'result',
   chat: 'chat',
   complete: 'complete',
 } as const;

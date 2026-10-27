@@ -122,26 +122,6 @@ export const copy: Record<string, Copy> = {
   intro3: { ar: 'فهم نمطك لا يعني محاولة إصلاحه، بل تعلم كيف تعمل معه.', en: 'Understanding your pattern isn’t about fixing it, but learning to work with it.' },
   intro4: { ar: 'نحن هنا لنستكشف هذا النمط معاً، بخطوات صغيرة وهادئة.', en: 'We are here to explore this pattern together, with small and gentle steps.' },
   
-  assessmentTitle: { ar: 'لنستكشف نمطك', en: 'Let’s explore your pattern' },
-  question1: { ar: 'هل تجد صعوبة في التركيز على التفاصيل وتفقد مسارك في المهام الطويلة؟', en: 'Do you find it hard to focus on details and lose your track on long tasks?' },
-  question2: { ar: 'هل تشعر بالحاجة المستمرة للحركة أو تجد صعوبة في البقاء هادئاً؟', en: 'Do you feel a constant need to move or find it hard to stay still?' },
-  question3: { ar: 'هل تتشتت انتباهك بسهولة بسبب أفكار أو أصوات حولك؟', en: 'Are you easily distracted by passing thoughts or sounds around you?' },
-  question4: { ar: 'هل تقاطع الآخرين في الحديث أو تجيب قبل اكتمال السؤال؟', en: 'Do you interrupt others or answer before a question is finished?' },
-  question5: { ar: 'هل تؤجل المهام التي تتطلب جهداً ذهنياً مستمراً حتى اللحظة الأخيرة؟', en: 'Do you put off tasks requiring sustained mental effort until the last minute?' },
-  question6: { ar: 'هل تتخذ قرارات متسرعة دون التفكير في العواقب؟', en: 'Do you make impulsive decisions without thinking about the consequences?' },
-  
-  rarely: { ar: 'نادراً', en: 'Rarely' },
-  sometimes: { ar: 'أحياناً', en: 'Sometimes' },
-  often: { ar: 'غالباً', en: 'Often' },
-  very_often: { ar: 'دائماً', en: 'Very often' },
-  
-  resultTitle: { ar: 'نمط انتباهك', en: 'Your attention pattern' },
-  inattentive: { ar: 'النمط المشتت', en: 'Inattentive Pattern' },
-  hyperactive_impulsive: { ar: 'النمط الحركي والاندفاعي', en: 'Hyperactive & Impulsive Pattern' },
-  combined: { ar: 'النمط المشترك', en: 'Combined Pattern' },
-  balanced: { ar: 'النمط المتوازن', en: 'Balanced Pattern' },
-  resultDisclaimer: { ar: 'هذا تقييم ذاتي أولي للتعرف عليك بشكل أفضل، وليس تشخيصاً طبياً — التشخيص الرسمي يجب أن يصدر من طبيب مختص.', en: 'This is an initial self-assessment to get to know you better, not a medical diagnosis — an official diagnosis should come from a specialist.' },
-  
   chatHello: { ar: 'أهلاً بك. أنا AFTA. أنا هنا لمساعدتك على ترتيب يومك بالطريقة التي تناسبك. لنتعرف على ما يهمك أكثر.', en: 'Hello. I am AFTA. I am here to help you structure your day in a way that works for you. Let’s learn what matters most to you.' },
   chatInterests: { ar: 'ما هي اهتماماتك التي تود أن تجد وقتاً لها؟', en: 'What are the interests you want to find time for?' },
   interestCreative: { ar: 'الإبداع والفنون', en: 'Creativity & Arts' },

@@ -7,13 +7,12 @@ import {
   getGetUserOnboardingQueryKey,
   useSyncUserProfile,
   type UserOnboarding,
-  type AssessmentAnswers,
   type OnboardingChatAnswers
 } from '@workspace/api-client-react';
 import { LanguageToggle } from '@/pages/landing';
 import { useAuth } from '@/lib/auth';
 import { useI18n } from '@/lib/i18n';
-import { ArrowLeft, ArrowRight, LoaderCircle, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, LoaderCircle } from 'lucide-react';
 import { GentleLoader } from '@/components/gentle-loader';
 
 export default function Onboarding() {
@@ -70,8 +69,6 @@ export default function Onboarding() {
       </div>
       
       {onboarding.stage === 'intro' && <IntroSection onboarding={onboarding} queryKey={onboardingQueryKey} />}
-      {onboarding.stage === 'assessment' && <AssessmentSection onboarding={onboarding} queryKey={onboardingQueryKey} />}
-      {onboarding.stage === 'result' && <ResultSection onboarding={onboarding} queryKey={onboardingQueryKey} />}
       {onboarding.stage === 'chat' && <ChatSection onboarding={onboarding} queryKey={onboardingQueryKey} />}
     </main>
   );
@@ -101,7 +98,7 @@ function IntroSection({ onboarding, queryKey }: { onboarding: UserOnboarding; qu
     setSaveError(false);
     const isLast = step === introCards.length - 1;
     const nextStep = isLast ? step : step + 1;
-    const nextStage = isLast ? 'assessment' : 'intro';
+    const nextStage = isLast ? 'chat' : 'intro';
     
     updateOnboarding({ data: { introStep: nextStep, stage: nextStage } }, {
       onSuccess: (data) => {
@@ -177,141 +174,6 @@ function IntroSection({ onboarding, queryKey }: { onboarding: UserOnboarding; qu
           {isPending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <>{t('next')} <Arrow className="h-4 w-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" /></>}
         </button>
       </div>
-      <SaveError visible={saveError} />
-    </div>
-  );
-}
-
-function AssessmentSection({ onboarding, queryKey }: { onboarding: UserOnboarding; queryKey: readonly unknown[] }) {
-  const { t, lang } = useI18n();
-  const [step, setStep] = useState(onboarding.assessmentStep);
-  const [answers, setAnswers] = useState<AssessmentAnswers>(onboarding.assessmentAnswers || {});
-  const [saveError, setSaveError] = useState(false);
-  const { mutate: updateOnboarding, isPending } = useUpdateUserOnboarding({
-    mutation: { onError: () => setSaveError(true) },
-  });
-  const queryClient = useQueryClient();
-  const Arrow = lang === 'ar' ? ArrowLeft : ArrowRight;
-
-  const questions = [
-    { id: 'q1' as const, text: t('question1') },
-    { id: 'q2' as const, text: t('question2') },
-    { id: 'q3' as const, text: t('question3') },
-    { id: 'q4' as const, text: t('question4') },
-    { id: 'q5' as const, text: t('question5') },
-    { id: 'q6' as const, text: t('question6') },
-  ];
-
-  const currentQ = questions[step];
-  const currentAnswer = answers[currentQ.id];
-
-  const handleNext = () => {
-    if (isPending || !currentAnswer) return;
-    setSaveError(false);
-    const isLast = step === questions.length - 1;
-    const nextStep = isLast ? step : step + 1;
-    
-    if (isLast) {
-      updateOnboarding({ data: { assessmentStep: nextStep, assessmentAnswers: answers, stage: 'result' } }, {
-        onSuccess: (data) => {
-          queryClient.setQueryData(queryKey, data);
-        }
-      });
-    } else {
-      updateOnboarding({ data: { assessmentStep: nextStep, assessmentAnswers: answers } }, {
-        onSuccess: (data) => {
-          queryClient.setQueryData(queryKey, data);
-          setStep(nextStep);
-        }
-      });
-    }
-  };
-
-  const choices = [
-    { value: 'rarely' as const, label: t('rarely') },
-    { value: 'sometimes' as const, label: t('sometimes') },
-    { value: 'often' as const, label: t('often') },
-    { value: 'very_often' as const, label: t('very_often') },
-  ];
-
-  const progress = ((step + 1) / questions.length) * 100;
-
-  return (
-    <div className="mx-auto flex min-h-[100dvh] max-w-xl flex-col justify-center px-5 py-12 soft-reveal" key={`assess-${step}`}>
-      <div className="mb-10 w-full">
-        <div className="mb-4 flex items-center justify-between text-xs font-bold text-muted-foreground">
-          <span>{t('assessmentTitle')}</span>
-          <span dir="ltr" data-testid="text-assessment-progress">{step + 1} / {questions.length}</span>
-        </div>
-        <div className={`flex h-1.5 w-full overflow-hidden rounded-full bg-primary/10 ${lang === 'ar' ? 'justify-end' : 'justify-start'}`}>
-          <div className="h-full bg-primary transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
-        </div>
-      </div>
-
-      <h2 className="mb-10 font-arabic text-2xl font-bold leading-[1.5] text-primary sm:text-3xl" data-testid={`text-question-${currentQ.id}`}>{currentQ.text}</h2>
-
-      <div className="flex flex-col gap-3">
-        {choices.map((choice) => {
-          const isSelected = currentAnswer === choice.value;
-          return (
-            <button
-              key={choice.value}
-              onClick={() => setAnswers({ ...answers, [currentQ.id]: choice.value })}
-              className={`flex w-full items-center justify-between rounded-2xl border p-4 text-start font-bold transition-all ${isSelected ? 'border-primary bg-primary/5 text-primary' : 'border-border bg-card text-foreground hover:border-primary/30 hover:bg-primary/5'}`}
-              data-testid={`button-choice-${choice.value}`}
-            >
-              <span>{choice.label}</span>
-              <div className={`flex h-5 w-5 items-center justify-center rounded-full border ${isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-muted-foreground/30'}`}>
-                {isSelected && <Check className="h-3 w-3" />}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-12 flex justify-end">
-        <button onClick={handleNext} disabled={isPending || !currentAnswer} className="group flex h-14 items-center gap-3 rounded-full bg-primary px-8 text-sm font-bold text-primary-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60" data-testid="button-assessment-next">
-          {isPending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <>{t('next')} <Arrow className="h-4 w-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" /></>}
-        </button>
-      </div>
-      <SaveError visible={saveError} />
-    </div>
-  );
-}
-
-function ResultSection({ onboarding, queryKey }: { onboarding: UserOnboarding; queryKey: readonly unknown[] }) {
-  const { t, lang } = useI18n();
-  const [saveError, setSaveError] = useState(false);
-  const { mutate: updateOnboarding, isPending } = useUpdateUserOnboarding({
-    mutation: { onError: () => setSaveError(true) },
-  });
-  const queryClient = useQueryClient();
-  const Arrow = lang === 'ar' ? ArrowLeft : ArrowRight;
-
-  const handleNext = () => {
-    if (isPending) return;
-    setSaveError(false);
-    updateOnboarding({ data: { stage: 'chat' } }, {
-      onSuccess: (data) => {
-        queryClient.setQueryData(queryKey, data);
-      }
-    });
-  };
-
-  const resultKey = onboarding.assessmentResult || 'balanced';
-
-  return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center px-6 py-12 soft-reveal text-center">
-      <p className="mb-4 font-mono-ui text-xs uppercase tracking-[.2em] text-accent-foreground/70">{t('resultTitle')}</p>
-      <h2 className="font-arabic text-4xl font-bold text-primary sm:text-5xl" data-testid="text-result-value">{t(resultKey)}</h2>
-      
-      <div className="mt-10 max-w-md rounded-2xl border border-primary/10 bg-card p-6 shadow-sm">
-        <p className="text-sm leading-[1.8] text-muted-foreground" data-testid="text-result-disclaimer">{t('resultDisclaimer')}</p>
-      </div>
-
-      <button onClick={handleNext} disabled={isPending} className="group mt-12 flex h-14 items-center gap-3 rounded-full bg-primary px-8 text-sm font-bold text-primary-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60" data-testid="button-result-next">
-        {isPending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <>{t('continue')} <Arrow className="h-4 w-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" /></>}
-      </button>
       <SaveError visible={saveError} />
     </div>
   );

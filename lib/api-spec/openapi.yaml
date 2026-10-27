@@ -1236,40 +1236,8 @@ components:
       type: string
       enum:
         - intro
-        - assessment
-        - result
         - chat
         - complete
-    AssessmentResult:
-      type: string
-      enum:
-        - inattentive
-        - hyperactive_impulsive
-        - combined
-        - balanced
-    AssessmentAnswers:
-      type: object
-      additionalProperties: false
-      properties:
-        q1:
-          $ref: "#/components/schemas/AssessmentAnswerValue"
-        q2:
-          $ref: "#/components/schemas/AssessmentAnswerValue"
-        q3:
-          $ref: "#/components/schemas/AssessmentAnswerValue"
-        q4:
-          $ref: "#/components/schemas/AssessmentAnswerValue"
-        q5:
-          $ref: "#/components/schemas/AssessmentAnswerValue"
-        q6:
-          $ref: "#/components/schemas/AssessmentAnswerValue"
-    AssessmentAnswerValue:
-      type: string
-      enum:
-        - rarely
-        - sometimes
-        - often
-        - very_often
     OnboardingChatAnswers:
       type: object
       properties:
@@ -1314,12 +1282,6 @@ components:
           type: integer
           minimum: 0
           maximum: 3
-        assessmentStep:
-          type: integer
-          minimum: 0
-          maximum: 5
-        assessmentAnswers:
-          $ref: "#/components/schemas/AssessmentAnswers"
         chatAnswers:
           $ref: "#/components/schemas/OnboardingChatAnswers"
     UserOnboarding:
@@ -1331,20 +1293,6 @@ components:
           $ref: "#/components/schemas/OnboardingStage"
         introStep:
           type: integer
-        assessmentStep:
-          type: integer
-        assessmentAnswers:
-          $ref: "#/components/schemas/AssessmentAnswers"
-        assessmentResult:
-          type:
-            - string
-            - "null"
-          enum:
-            - inattentive
-            - hyperactive_impulsive
-            - combined
-            - balanced
-            - null
         chatAnswers:
           $ref: "#/components/schemas/OnboardingChatAnswers"
         completedAt:
@@ -1362,9 +1310,6 @@ components:
         - id
         - stage
         - introStep
-        - assessmentStep
-        - assessmentAnswers
-        - assessmentResult
         - chatAnswers
         - completedAt
         - createdAt

@@ -5,7 +5,6 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
-import type { AssessmentAnswers } from './assessmentAnswers';
 import type { OnboardingChatAnswers } from './onboardingChatAnswers';
 import type { OnboardingStage } from './onboardingStage';
 
@@ -16,11 +15,5 @@ export interface OnboardingUpdate {
      * @maximum 3
      */
   introStep?: number;
-  /**
-     * @minimum 0
-     * @maximum 5
-     */
-  assessmentStep?: number;
-  assessmentAnswers?: AssessmentAnswers;
   chatAnswers?: OnboardingChatAnswers;
 }

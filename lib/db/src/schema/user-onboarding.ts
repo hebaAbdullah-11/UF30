@@ -3,14 +3,6 @@ import { integer, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { randomUUID } from "node:crypto";
 import { z } from "zod/v4";
 
-export type AssessmentAnswerValue =
-  | "rarely"
-  | "sometimes"
-  | "often"
-  | "very_often";
-
-export type AssessmentAnswers = Record<string, AssessmentAnswerValue>;
-
 export type OnboardingChatAnswers = {
   interests: string[];
   dailyNeeds: string[];
@@ -24,12 +16,6 @@ export const userOnboardingTable = pgTable("user_onboarding", {
   clerkUserId: text("clerk_user_id").notNull().unique(),
   stage: text("stage").notNull().default("intro"),
   introStep: integer("intro_step").notNull().default(0),
-  assessmentStep: integer("assessment_step").notNull().default(0),
-  assessmentAnswers: jsonb("assessment_answers")
-    .$type<AssessmentAnswers>()
-    .notNull()
-    .default({}),
-  assessmentResult: text("assessment_result"),
   chatAnswers: jsonb("chat_answers")
     .$type<OnboardingChatAnswers>()
     .notNull()
