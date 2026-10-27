@@ -36,56 +36,58 @@
 }
 
 :root {
-  --button-outline: rgba(31, 65, 61, .14);
-  --badge-outline: rgba(31, 65, 61, .08);
+  /* Palette matches the UF30 pages (pages/uf30.css): paper #f4f6f8, ink #172334,
+     blue #2458a6, deep #17396b, line #d9e0e9, muted #667386. */
+  --button-outline: rgba(23, 57, 107, .14);
+  --badge-outline: rgba(23, 57, 107, .08);
   --opaque-button-border-intensity: -8;
-  --elevate-1: rgba(31, 65, 61, .04);
-  --elevate-2: rgba(31, 65, 61, .08);
-  --background: 48 33% 95%;
-  --foreground: 172 26% 18%;
-  --border: 44 22% 86%;
-  --card: 48 42% 98%;
-  --card-foreground: 172 26% 18%;
-  --card-border: 44 24% 88%;
-  --sidebar: 162 22% 94%;
-  --sidebar-foreground: 172 26% 18%;
-  --sidebar-border: 44 22% 86%;
-  --sidebar-primary: 172 26% 25%;
-  --sidebar-primary-foreground: 48 42% 98%;
-  --sidebar-accent: 162 32% 88%;
-  --sidebar-accent-foreground: 172 26% 18%;
-  --sidebar-ring: 172 26% 35%;
-  --popover: 48 42% 98%;
-  --popover-foreground: 172 26% 18%;
-  --popover-border: 44 24% 88%;
-  --primary: 172 26% 25%;
-  --primary-foreground: 48 42% 98%;
-  --secondary: 161 31% 86%;
-  --secondary-foreground: 172 26% 18%;
-  --muted: 45 25% 90%;
-  --muted-foreground: 172 11% 42%;
-  --accent: 19 76% 71%;
-  --accent-foreground: 18 32% 22%;
+  --elevate-1: rgba(23, 57, 107, .04);
+  --elevate-2: rgba(23, 57, 107, .08);
+  --background: 210 22% 96%;
+  --foreground: 215 39% 15%;
+  --border: 214 27% 88%;
+  --card: 0 0% 100%;
+  --card-foreground: 215 39% 15%;
+  --card-border: 214 27% 88%;
+  --sidebar: 213 32% 93%;
+  --sidebar-foreground: 215 39% 15%;
+  --sidebar-border: 214 27% 88%;
+  --sidebar-primary: 216 64% 40%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 213 44% 90%;
+  --sidebar-accent-foreground: 216 65% 25%;
+  --sidebar-ring: 216 64% 40%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 39% 15%;
+  --popover-border: 214 27% 88%;
+  --primary: 216 64% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 214 41% 93%;
+  --secondary-foreground: 216 65% 25%;
+  --muted: 213 32% 93%;
+  --muted-foreground: 216 14% 46%;
+  --accent: 213 44% 90%;
+  --accent-foreground: 216 65% 25%;
   --destructive: 5 63% 48%;
-  --destructive-foreground: 48 42% 98%;
-  --input: 44 22% 81%;
-  --ring: 19 76% 62%;
-  --chart-1: 172 26% 25%;
-  --chart-2: 19 76% 71%;
-  --chart-3: 42 70% 62%;
-  --chart-4: 199 42% 56%;
-  --chart-5: 271 28% 61%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 214 24% 82%;
+  --ring: 216 64% 40%;
+  --chart-1: 216 64% 40%;
+  --chart-2: 213 70% 62%;
+  --chart-3: 199 60% 48%;
+  --chart-4: 230 45% 62%;
+  --chart-5: 186 45% 42%;
   --app-font-serif: 'Cairo', sans-serif;
   --app-font-mono: 'DM Mono', monospace;
-  --radius: 1.25rem;
-  --shadow-2xs: 0 2px 0 hsl(172 26% 25% / .02);
-  --shadow-xs: 0 4px 10px hsl(172 26% 25% / .04);
-  --shadow-sm: 0 8px 20px hsl(172 26% 25% / .06);
-  --shadow: 0 12px 30px hsl(172 26% 25% / .08);
-  --shadow-md: 0 18px 45px hsl(172 26% 25% / .11);
-  --shadow-lg: 0 24px 60px hsl(172 26% 25% / .14);
-  --shadow-xl: 0 30px 80px hsl(172 26% 25% / .16);
-  --shadow-2xl: 0 40px 100px hsl(172 26% 25% / .2);
+  --radius: 1rem;
+  --shadow-2xs: 0 2px 0 hsl(216 65% 25% / .02);
+  --shadow-xs: 0 4px 10px hsl(216 65% 25% / .04);
+  --shadow-sm: 0 8px 20px hsl(216 65% 25% / .06);
+  --shadow: 0 12px 30px hsl(216 65% 25% / .08);
+  --shadow-md: 0 18px 45px hsl(216 65% 25% / .11);
+  --shadow-lg: 0 24px 60px hsl(216 65% 25% / .14);
+  --shadow-xl: 0 30px 80px hsl(216 65% 25% / .16);
+  --shadow-2xl: 0 40px 100px hsl(216 65% 25% / .2);
   --tracking-normal: 0em;
   --spacing: .25rem;
   --sidebar-primary-border: hsl(var(--sidebar-primary));
@@ -98,40 +100,40 @@
 }
 
 .dark {
-  --background: 172 26% 12%;
-  --foreground: 48 33% 95%;
-  --border: 172 15% 25%;
-  --card: 172 21% 16%;
-  --card-foreground: 48 33% 95%;
-  --card-border: 172 15% 25%;
-  --sidebar: 172 21% 15%;
-  --sidebar-foreground: 48 33% 95%;
-  --sidebar-border: 172 15% 25%;
-  --sidebar-primary: 19 76% 71%;
-  --sidebar-primary-foreground: 18 32% 22%;
-  --sidebar-accent: 172 20% 23%;
-  --sidebar-accent-foreground: 48 33% 95%;
-  --sidebar-ring: 19 76% 71%;
-  --popover: 172 21% 16%;
-  --popover-foreground: 48 33% 95%;
-  --popover-border: 172 15% 25%;
-  --primary: 161 31% 72%;
-  --primary-foreground: 172 26% 12%;
-  --secondary: 172 20% 23%;
-  --secondary-foreground: 48 33% 95%;
-  --muted: 172 20% 22%;
-  --muted-foreground: 161 12% 70%;
-  --accent: 19 76% 71%;
-  --accent-foreground: 18 32% 22%;
+  --background: 216 45% 9%;
+  --foreground: 210 22% 95%;
+  --border: 216 30% 22%;
+  --card: 216 40% 13%;
+  --card-foreground: 210 22% 95%;
+  --card-border: 216 30% 22%;
+  --sidebar: 216 40% 12%;
+  --sidebar-foreground: 210 22% 95%;
+  --sidebar-border: 216 30% 22%;
+  --sidebar-primary: 213 80% 70%;
+  --sidebar-primary-foreground: 216 45% 10%;
+  --sidebar-accent: 216 40% 24%;
+  --sidebar-accent-foreground: 213 60% 88%;
+  --sidebar-ring: 213 80% 70%;
+  --popover: 216 40% 13%;
+  --popover-foreground: 210 22% 95%;
+  --popover-border: 216 30% 22%;
+  --primary: 213 80% 70%;
+  --primary-foreground: 216 45% 10%;
+  --secondary: 216 35% 20%;
+  --secondary-foreground: 210 22% 95%;
+  --muted: 216 35% 18%;
+  --muted-foreground: 214 20% 70%;
+  --accent: 216 40% 24%;
+  --accent-foreground: 213 60% 88%;
   --destructive: 5 63% 62%;
-  --destructive-foreground: 172 26% 12%;
-  --input: 172 15% 32%;
-  --ring: 19 76% 71%;
-  --chart-1: 161 31% 72%;
-  --chart-2: 19 76% 71%;
-  --chart-3: 42 70% 62%;
-  --chart-4: 199 42% 56%;
-  --chart-5: 271 28% 61%;
+  --destructive-foreground: 216 45% 10%;
+  --input: 216 30% 28%;
+  --ring: 213 80% 70%;
+  --chart-1: 213 80% 70%;
+  --chart-2: 213 70% 62%;
+  --chart-3: 199 60% 55%;
+  --chart-4: 230 45% 68%;
+  --chart-5: 186 45% 52%;
 }
 
 :root[lang="ar"] {
@@ -148,8 +150,6 @@
     @apply antialiased bg-background text-foreground;
     font-family: var(--app-font-sans);
     min-width: 320px;
-    background-image: radial-gradient(circle at 8% 4%, hsl(19 76% 71% / .12), transparent 26rem),
-      radial-gradient(circle at 92% 22%, hsl(161 31% 72% / .15), transparent 30rem);
   }
 }
 
@@ -176,9 +176,4 @@ button, a, input { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-}
-
-.dark body {
-  background-image: radial-gradient(circle at 8% 4%, hsl(var(--accent) / .08), transparent 26rem),
-    radial-gradient(circle at 92% 22%, hsl(var(--primary) / .08), transparent 30rem);
 }

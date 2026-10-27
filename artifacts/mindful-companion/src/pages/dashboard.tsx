@@ -41,16 +41,16 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50/50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b bg-white/80 px-4 py-4 backdrop-blur-md sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-teal-800 font-medium text-white shadow-sm">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary font-medium text-primary-foreground shadow-sm">
             {user.name.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <h1 className="truncate text-sm font-medium text-stone-800">{user.name}</h1>
-            <p className="hidden truncate text-xs text-stone-500 sm:block">{user.email}</p>
+            <h1 className="truncate text-sm font-medium text-foreground">{user.name}</h1>
+            <p className="hidden truncate text-xs text-muted-foreground sm:block">{user.email}</p>
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
@@ -59,7 +59,7 @@ export default function Dashboard() {
             type="button"
             variant="ghost"
             size="sm"
-            className="rounded-full px-3 text-stone-700"
+            className="rounded-full px-3 text-foreground/80"
           >
             <Link href="/">
               <Home aria-hidden="true" />
@@ -67,7 +67,7 @@ export default function Dashboard() {
               <span className="sr-only sm:hidden">{t('backHome')}</span>
             </Link>
           </Button>
-          <Button asChild type="button" variant="ghost" size="sm" className="rounded-full px-3 text-stone-700">
+          <Button asChild type="button" variant="ghost" size="sm" className="rounded-full px-3 text-foreground/80">
             <Link href="/uf30/afta" data-testid="link-dashboard-afta-hub">
               <LayoutGrid aria-hidden="true" />
               <span className="hidden sm:inline">{lang === 'ar' ? 'مركز أفتا' : 'AFTA hub'}</span>
@@ -83,7 +83,7 @@ export default function Dashboard() {
             disabled={isSigningOut}
             aria-busy={isSigningOut}
             data-testid="button-sign-out"
-            className="rounded-full border-stone-200 bg-white/70 px-3 text-stone-700"
+            className="rounded-full border-border bg-white/70 px-3 text-foreground/80"
           >
             <LogOut aria-hidden="true" />
             <span className="hidden sm:inline">{t('signOut')}</span>
@@ -104,10 +104,10 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-6 py-10 flex flex-col gap-8">
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-light tracking-tight text-stone-800">
+          <h2 className="text-2xl font-light tracking-tight text-foreground">
             {t('dashboardWelcome')}، {user.name}
           </h2>
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-muted-foreground">
             {t('dashboardSubtitle')}
           </p>
         </div>
@@ -126,37 +126,37 @@ export default function Dashboard() {
         {/* Quick Actions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link href="/declutter">
-            <div className="group p-6 rounded-2xl bg-white border border-stone-200/80 shadow-sm hover:shadow-md hover:border-teal-700/30 transition-all cursor-pointer flex flex-col justify-between h-full">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+            <div className="group p-6 rounded-2xl bg-white border border-card-border shadow-sm hover:shadow-md hover:border-primary/30 transition-all cursor-pointer flex flex-col justify-between h-full">
+              <div className="w-10 h-10 rounded-xl bg-secondary text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                 <Wind className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-medium text-stone-800 mb-1">{t('cardDeclutter')}</h3>
-                <p className="text-xs text-stone-500 leading-relaxed">{t('cardDeclutterDescription')}</p>
+                <h3 className="text-base font-medium text-foreground mb-1">{t('cardDeclutter')}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t('cardDeclutterDescription')}</p>
               </div>
             </div>
           </Link>
 
           <Link href="/organize-thoughts">
-            <div className="group p-6 rounded-2xl bg-white border border-stone-200/80 shadow-sm hover:shadow-md hover:border-teal-700/30 transition-all cursor-pointer flex flex-col justify-between h-full">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+            <div className="group p-6 rounded-2xl bg-white border border-card-border shadow-sm hover:shadow-md hover:border-primary/30 transition-all cursor-pointer flex flex-col justify-between h-full">
+              <div className="w-10 h-10 rounded-xl bg-secondary text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                 <Layers className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-medium text-stone-800 mb-1">{t('cardOrganize')}</h3>
-                <p className="text-xs text-stone-500 leading-relaxed">{t('cardOrganizeDescription')}</p>
+                <h3 className="text-base font-medium text-foreground mb-1">{t('cardOrganize')}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t('cardOrganizeDescription')}</p>
               </div>
             </div>
           </Link>
 
           <Link href="/daily-questions">
-            <div className="group p-6 rounded-2xl bg-white border border-stone-200/80 shadow-sm hover:shadow-md hover:border-teal-700/30 transition-all cursor-pointer flex flex-col justify-between h-full">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+            <div className="group p-6 rounded-2xl bg-white border border-card-border shadow-sm hover:shadow-md hover:border-primary/30 transition-all cursor-pointer flex flex-col justify-between h-full">
+              <div className="w-10 h-10 rounded-xl bg-secondary text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-medium text-stone-800 mb-1">{t('dailyQuestionsTitle')}</h3>
-                <p className="text-xs text-stone-500 leading-relaxed">{t('dailyQuestionsDescription')}</p>
+                <h3 className="text-base font-medium text-foreground mb-1">{t('dailyQuestionsTitle')}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t('dailyQuestionsDescription')}</p>
               </div>
             </div>
           </Link>
