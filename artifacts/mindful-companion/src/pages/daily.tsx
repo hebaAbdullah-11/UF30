@@ -221,6 +221,8 @@ function AddTaskForm({ day, onDone, open, setOpen }: { day: string; onDone: () =
   const field = 'rounded-xl border border-input bg-background px-3 py-2 text-sm';
   return (
     <form onSubmit={submit} id="add-task" className="rounded-2xl border border-border bg-card p-4" data-testid="form-add-task">
+      {/* The form opens on an explicit "add" tap, so moving focus into it is expected. */}
+      {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
       <input autoFocus aria-label={c.addTitlePlaceholder} required value={title} maxLength={240} onChange={e => setTitle(e.target.value)} placeholder={c.addTitlePlaceholder} className={`${field} w-full`} data-testid="input-task-title" />
       <div className="mt-3 flex flex-wrap items-end gap-3">
         <div className="flex rounded-full bg-muted p-1" role="radiogroup" aria-label={c.kindLabel}>
