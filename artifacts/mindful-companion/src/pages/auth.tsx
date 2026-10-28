@@ -99,6 +99,7 @@ function friendlyError(error: unknown, t: (key: string) => string) {
     if (error.code === "PASSWORD_TOO_SHORT") return t("requiredPassword");
     if (error.code === "EMAIL_IN_USE") return t("emailInUse");
     if (error.code === "INVALID_CREDENTIALS") return t("wrongCredentials");
+    if (error.code === "EMAIL_RATE_LIMITED") return t("emailRateLimited");
     if (error.code === "EMAIL_CONFIRMATION_REQUIRED") {
       return t("emailConfirmationRequired");
     }
@@ -117,6 +118,8 @@ export function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  // The email confirmation link returns here with ?confirmed=1.
+  const [confirmed] = useState(() => new URLSearchParams(window.location.search).has("confirmed"));
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -152,6 +155,11 @@ export function SignInPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
+        {confirmed && !error && (
+          <div role="status" className="rounded-2xl border border-primary/20 bg-primary/10 p-4 text-xs font-medium text-primary" data-testid="status-email-confirmed">
+            {t("emailConfirmed")}
+          </div>
+        )}
         {error && (
           <div className="rounded-2xl border border-destructive/20 bg-destructive/10 p-4 text-xs font-medium text-destructive">
             {error}

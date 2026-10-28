@@ -102,8 +102,12 @@ export async function signUpWithSupabase(
   email: string,
   password: string,
   name: string,
+  redirectTo?: string,
 ): Promise<SupabaseSession | { user: SupabaseUser; access_token: null }> {
-  const payload = await authRequest<SupabaseSession | SupabaseUser>("signup", {
+  // redirect_to is where the confirmation link lands; Supabase only honours URLs
+  // on the project's Redirect URLs allow-list and otherwise uses its Site URL.
+  const path = redirectTo ? `signup?redirect_to=${encodeURIComponent(redirectTo)}` : "signup";
+  const payload = await authRequest<SupabaseSession | SupabaseUser>(path, {
     email,
     password,
     data: { name },

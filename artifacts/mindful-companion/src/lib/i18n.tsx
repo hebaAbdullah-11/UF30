@@ -99,6 +99,8 @@ export const copy: Record<string, Copy> = {
   tooManyAttempts: { ar: 'تمت محاولات كثيرة خلال وقت قصير. انتظر قليلًا ثم حاول مرة أخرى.', en: 'Too many attempts were made in a short time. Wait a moment and try again.' },
   wrongCredentials: { ar: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.', en: 'The email or password is not correct.' },
   emailInUse: { ar: 'هذا البريد مستخدم بالفعل. جرّب تسجيل الدخول.', en: 'This email is already in use. Try signing in.' },
+  emailRateLimited: { ar: 'أُرسلت رسائل تأكيد كثيرة خلال وقت قصير. انتظر بضع دقائق ثم حاول مرة أخرى.', en: 'Too many confirmation emails were sent in a short time. Wait a few minutes and try again.' },
+  emailConfirmed: { ar: 'تم تأكيد بريدك الإلكتروني. سجّل الدخول للمتابعة.', en: 'Your email is confirmed. Sign in to continue.' },
   emailConfirmationRequired: { ar: 'تحقق من بريدك الإلكتروني لتأكيد الحساب، ثم سجّل الدخول.', en: 'Check your email to confirm your account, then sign in.' },
   dashboardSubtitle: { ar: 'خذ نفسًا عميقًا، وفكّك أفكارك، وتابع تقدمك بخطوات هادئة.', en: 'Take a deep breath, untangle your thoughts, and move forward in gentle steps.' },
   signedInTitle: { ar: 'وصلت إلى مساحتك.', en: 'You made it to your space.' },

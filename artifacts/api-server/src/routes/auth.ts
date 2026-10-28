@@ -124,6 +124,19 @@ async function linkSupabaseIdentity(input: {
   });
 }
 
+function supabaseErrorCode(error: unknown) {
+  return typeof error === "object" && error !== null && "code" in error && typeof error.code === "string"
+    ? error.code
+    : undefined;
+}
+
+function confirmationRedirect(req: Parameters<Parameters<IRouter["post"]>[1]>[0]) {
+  const host = req.get("x-forwarded-host") ?? req.get("host");
+  if (!host) return undefined;
+  const proto = req.get("x-forwarded-proto")?.split(",")[0] ?? req.protocol;
+  return `${proto}://${host}/sign-in?confirmed=1`;
+}
+
 function confirmationRequired(res: Parameters<Parameters<IRouter["post"]>[1]>[1]) {
   res.status(403).json({
     code: "EMAIL_CONFIRMATION_REQUIRED",
@@ -154,7 +167,7 @@ router.post("/auth/sign-up", async (req, res): Promise<void> => {
   const email = parsed.data.email.trim().toLowerCase();
   try {
     assertSessionConfigured();
-    const supabase = await signUpWithSupabase(email, parsed.data.password, name);
+    const supabase = await signUpWithSupabase(email, parsed.data.password, name, confirmationRedirect(req));
     const supabaseUser = supabase.user;
     const user = await linkSupabaseIdentity({
       supabaseUserId: supabaseUser.id,
@@ -175,6 +188,13 @@ router.post("/auth/sign-up", async (req, res): Promise<void> => {
       res.status(409).json({
         code: "EMAIL_IN_USE",
         error: "An account with this email already exists.",
+      });
+      return;
+    }
+    if (supabaseErrorCode(error) === "over_email_send_rate_limit") {
+      res.status(429).json({
+        code: "EMAIL_RATE_LIMITED",
+        error: "Too many confirmation emails were requested. Please wait a few minutes and try again.",
       });
       return;
     }
@@ -232,7 +252,7 @@ router.post("/auth/sign-in", async (req, res): Promise<void> => {
     setSessionCookie(req, res, user.id);
     res.json({ user: publicUser(user) });
   } catch (error) {
-    if (error instanceof ConfirmationRequiredError) {
+    if (error instanceof ConfirmationRequiredError || supabaseErrorCode(error) === "email_not_confirmed") {
       confirmationRequired(res);
       return;
     }
