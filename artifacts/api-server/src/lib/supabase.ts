@@ -98,12 +98,19 @@ export function clearSupabaseSessionCookies(req: Request, res: Response) {
   res.clearCookie(REFRESH_COOKIE, options);
 }
 
-export async function signUpWithSupabase(email: string, password: string, name: string) {
-  return authRequest<SupabaseSession | { user: SupabaseUser; access_token?: null }>("signup", {
+export async function signUpWithSupabase(
+  email: string,
+  password: string,
+  name: string,
+): Promise<SupabaseSession | { user: SupabaseUser; access_token: null }> {
+  const payload = await authRequest<SupabaseSession | SupabaseUser>("signup", {
     email,
     password,
     data: { name },
   });
+  if ("access_token" in payload && typeof payload.access_token === "string") return payload;
+  // With email confirmation on, Supabase returns the new user itself and no session.
+  return { user: payload as SupabaseUser, access_token: null };
 }
 
 export async function signInWithSupabase(email: string, password: string) {

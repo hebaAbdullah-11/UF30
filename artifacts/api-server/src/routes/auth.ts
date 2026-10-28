@@ -178,7 +178,7 @@ router.post("/auth/sign-up", async (req, res): Promise<void> => {
       });
       return;
     }
-    req.log.error({ error }, "Unable to create Supabase user");
+    req.log.error({ err: error }, "Unable to create Supabase user");
     res.status(500).json({
       code: "SIGN_UP_FAILED",
       error: "We couldn't create your account just now.",
