@@ -36,6 +36,7 @@ import { processChatExchange, RequestConflictError, type ChatMessage } from "../
 import { chatStore, lockChat } from "../services/chat-store.ts";
 import { conversationLanguage } from "../services/ai/conversation-context.ts";
 import { loadChatImage, MediaError } from "../services/chat-media";
+import { errorInfo } from "../lib/error-info";
 
 const router: IRouter = Router();
 
@@ -257,7 +258,7 @@ router.post("/internal-chat/:section", async (req, res): Promise<void> => {
       res.status(409).json({ error: error.message });
       return;
     }
-    req.log.error({ event: "chat_turn_failed", errorType: error instanceof Error ? error.name : "Unknown" }, "Unable to complete chat turn");
+    req.log.error({ event: "chat_turn_failed", ...errorInfo(error) }, "Unable to complete chat turn");
     res.status(503).json({
       error: "Your companion needs a brief pause. Please try again.",
     });

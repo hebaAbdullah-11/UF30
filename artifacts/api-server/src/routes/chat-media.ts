@@ -2,6 +2,7 @@ import { Router, type IRouter } from "express";
 import { RequestChatMediaUploadBody, TranscribeChatAudioBody } from "@workspace/api-zod";
 import { getSessionUserId } from "../lib/session";
 import { createMediaUpload, loadChatImage, MediaError, transcribeChatRecording } from "../services/chat-media";
+import { errorInfo } from "../lib/error-info";
 
 const router: IRouter = Router();
 // Bound AI transcription concurrency per account without logging user content.
@@ -17,6 +18,7 @@ router.post("/chat-media/uploads", async (req, res) => {
   try {
     res.json(await createMediaUpload(getSessionUserId(req)!, body.data));
   } catch (error) {
+    if (!(error instanceof MediaError)) req.log.warn({ event: "media_upload_unavailable", ...errorInfo(error) }, "Unable to prepare upload");
     res.status(error instanceof MediaError ? error.status : 503).json({ error: error instanceof MediaError ? error.message : "Uploading is temporarily unavailable." });
   }
 });
@@ -29,7 +31,7 @@ router.post("/chat-media/transcribe", async (req, res) => {
   try {
     res.json({ text: await transcribeChatRecording(userId, body.data.objectPath) });
   } catch (error) {
-    req.log.warn({ event: "audio_transcription_failed", errorType: error instanceof Error ? error.name : "Unknown" }, "Unable to transcribe recording");
+    req.log.warn({ event: "audio_transcription_failed", ...errorInfo(error) }, "Unable to transcribe recording");
     res.status(error instanceof MediaError ? error.status : 503).json({ error: error instanceof MediaError ? error.message : "Transcription is temporarily unavailable. Your recording has not been sent to the agent." });
   } finally {
     activeTranscriptions.delete(userId);

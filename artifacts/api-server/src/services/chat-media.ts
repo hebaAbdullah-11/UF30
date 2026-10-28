@@ -1,9 +1,8 @@
 import { randomUUID } from "node:crypto";
-import { ObjectStorageService } from "../lib/objectStorage";
+import { createSignedUploadUrl, deleteObject, downloadObject } from "../lib/supabaseStorage";
 import { openai } from "@workspace/integrations-openai-ai-server";
 import { MAX_MEDIA_BYTES, MediaError, mediaOwnerKey, assertMediaOwner, validateChatImage } from "./chat-media-policy.ts";
 export { MAX_MEDIA_BYTES, MediaError, assertMediaOwner, validateChatImage } from "./chat-media-policy.ts";
-const storage = new ObjectStorageService();
 const imageTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
 const audioTypes: Record<string, string> = {
   "audio/webm": "webm", "audio/mp4": "mp4", "audio/ogg": "ogg",
@@ -18,29 +17,28 @@ export async function createMediaUpload(userId: string, input: {kind: "image" | 
     throw new MediaError("Use a supported file up to 8 MB.");
   }
   const entity = `chat/${mediaOwnerKey(userId)}/${input.kind}/${randomUUID()}.${extension}`;
-  return { uploadURL: await storage.getObjectEntityUploadURL(entity), objectPath: `/objects/${entity}` };
+  return { uploadURL: await createSignedUploadUrl(entity), objectPath: `/objects/${entity}` };
 }
 async function readMedia(userId: string, objectPath: string, kind: "image" | "audio") {
   assertMediaOwner(userId, objectPath, kind);
-  const file = await storage.getObjectEntityFile(objectPath);
-  const [metadata] = await file.getMetadata();
-  if (!Number(metadata.size) || Number(metadata.size) > MAX_MEDIA_BYTES) throw new MediaError("The attachment is empty or exceeds 8 MB.");
-  // Enforce the bound on actual bytes too: a still-valid signed PUT can replace an object.
-  const chunks: Buffer[] = [];
-  let size = 0;
-  for await (const chunk of file.createReadStream()) {
-    size += chunk.length;
-    if (size > MAX_MEDIA_BYTES) throw new MediaError("The attachment exceeds 8 MB.");
-    chunks.push(Buffer.from(chunk));
+  const key = objectPath.replace(/^\/objects\//, "");
+  let buffer: Buffer | null;
+  try {
+    buffer = await downloadObject(key, MAX_MEDIA_BYTES);
+  } catch (error) {
+    if (error instanceof RangeError) throw new MediaError("The attachment exceeds 8 MB.");
+    throw error;
   }
-  return { file, buffer: Buffer.concat(chunks) };
+  if (!buffer) throw new MediaError("That attachment is not available to this account.", 404);
+  if (!buffer.length) throw new MediaError("The attachment is empty or exceeds 8 MB.");
+  return { key, buffer };
 }
 export async function loadChatImage(userId: string, objectPath: string) {
   const { buffer } = await readMedia(userId, objectPath, "image");
   return validateChatImage(buffer);
 }
 export async function transcribeChatRecording(userId: string, objectPath: string) {
-  const { buffer, file } = await readMedia(userId, objectPath, "audio");
+  const { buffer, key } = await readMedia(userId, objectPath, "audio");
   try {
     const header = buffer.subarray(0, 16);
     const plausibleAudio = header.subarray(0, 4).equals(Buffer.from([0x1a, 0x45, 0xdf, 0xa3])) ||
@@ -59,6 +57,6 @@ export async function transcribeChatRecording(userId: string, objectPath: string
     return text;
   } finally {
     // Voice is a temporary draft, not a permanent recording attached to chat.
-    await file.delete({ ignoreNotFound: true }).catch(() => undefined);
+    await deleteObject(key).catch(() => undefined);
   }
 }
