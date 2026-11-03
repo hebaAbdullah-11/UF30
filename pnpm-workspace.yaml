@@ -74,6 +74,16 @@ onlyBuiltDependencies:
   - msw
   - unrs-resolver
 
+# Install scripts we deliberately do not run: none is needed at runtime.
+# sharp and onnxruntime-node ship prebuilt binaries (the scripts are fallbacks
+# and optional GPU downloads), protobufjs only checks versions, and
+# @clerk/shared only prints a notice.
+ignoredBuiltDependencies:
+  - '@clerk/shared'
+  - onnxruntime-node
+  - protobufjs
+  - sharp
+
 overrides:
   # replit uses linux-x64 only, we can exclude all other platforms
   "esbuild>@esbuild/darwin-arm64": "-"
